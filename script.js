@@ -134,3 +134,83 @@ window.addEventListener('DOMContentLoaded', () => {
   pickRandomTheme();
   setTimeout(showThemeMessage, 5000);
 });
+// ...previous theme and nav logic...
+
+// ===== BEST OFFERS MODAL LOGIC =====
+
+const offerModal = document.getElementById('offer-modal');
+const modalContent = document.getElementById('modal-content');
+const modalClose = document.getElementById('modal-close');
+const modalDetails = document.getElementById('modal-details');
+
+const offerDetails = {
+  mara: {
+    title: "Masai Mara Adventure – 50% OFF",
+    image: "assets/masai-mara.jpg",
+    description: "Experience the iconic Masai Mara at half price this month only. Witness the Big 5 on guided drives and enjoy luxury tented camps.",
+    highlights: [
+      "3 days, 2 nights in luxury tented camp",
+      "Multiple game drives (Big 5 guaranteed)",
+      "Visit to local Maasai village",
+      "Sundowner picnic at Mara River"
+    ],
+    meals: "Full board (breakfast, lunch, dinner)",
+    bookLink: "#booking-mara"
+  },
+  coast: {
+    title: "Kenyan Coast Escape – 30% OFF",
+    image: "assets/kenyan-coast.jpg",
+    description: "Unwind on the pristine beaches from Malindi to Diani with exclusive discounts. Perfect for couples, families, and solo travelers.",
+    highlights: [
+      "4 days, 3 nights beachfront resort",
+      "Day trip to Wasini Island",
+      "Dhow sunset cruise",
+      "Snorkeling coral gardens"
+    ],
+    meals: "Bed & breakfast included",
+    bookLink: "#booking-coast"
+  }
+};
+
+function openOfferModal(offerKey) {
+  const offer = offerDetails[offerKey];
+  if (!offer) return;
+  modalDetails.innerHTML = `
+    <img src="${offer.image}" alt="${offer.title}" />
+    <h3>${offer.title}</h3>
+    <p>${offer.description}</p>
+    <strong>Itinerary Highlights:</strong>
+    <ul>
+      ${offer.highlights.map(item => `<li>${item}</li>`).join('')}
+    </ul>
+    <p><strong>Meals:</strong> ${offer.meals}</p>
+    <a href="${offer.bookLink}" class="book-now-btn">Book Now</a>
+  `;
+  offerModal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  modalClose.focus();
+}
+
+function closeOfferModal() {
+  offerModal.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// Attach event listeners for Learn More buttons
+document.querySelectorAll('.learn-more-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    openOfferModal(this.dataset.offer);
+  });
+});
+// Modal close button
+modalClose.addEventListener('click', closeOfferModal);
+
+// Close modal on background click or Escape key
+offerModal.addEventListener('click', function(e) {
+  if (e.target === offerModal) closeOfferModal();
+});
+document.addEventListener('keydown', function(e) {
+  if (offerModal.classList.contains('active') && (e.key === "Escape" || e.key === "Esc")) {
+    closeOfferModal();
+  }
+});
