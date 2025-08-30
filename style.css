@@ -301,12 +301,16 @@ body.vacation-theme .hero-bg {
   .hero-ctas {
     flex-direction: column;
     gap: 0.7rem;
-    align-items: stretch;
+    align-items: center; /* center the buttons */
   }
   .cta-btn {
-    width: 100%;
-    min-width: unset;
+    min-width: 120px;         /* or your desktop value */
+    max-width: 240px;         /* limit max width if you like */
+    width: auto;              /* let them shrink */
     box-sizing: border-box;
+    margin: 0 auto;           /* center horizontally */
+    padding: 0.7em 1.15em;    /* keep padding moderate */
+    display: block;
   }
 }
 .theme-message {
