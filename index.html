@@ -78,54 +78,44 @@
 <section class="best-offers-section" id="best-offers">
   <h2 class="best-offers-title">Best Offers This Month</h2>
   <div class="best-offers-cards">
-    <!-- Offer 1: Masai Mara -->
+    <!-- Offer Card: Masai Mara -->
     <div class="offer-card">
       <div class="offer-img-holder">
-        <img src="Maasai_mara_1.jpg" alt="Masai Mara" />
+        <img src="Maasai_mara_1.jpg" alt="Masai Mara Safari" />
       </div>
-      <div class="offer-card-content">
-        <div class="offer-main-text">50% OFF</div>
-        <div class="offer-desc-group">
-          <div class="offer-desc">Masai Mara</div>
-          <div class="offer-highlight">See the Big 5</div>
+      <div class="offer-content">
+        <div class="offer-top-row">
+          <span class="offer-destination">Masai Mara</span>
+          <span class="offer-prices">
+            <span class="old-price">€500</span>
+            <span class="new-price">€250</span>
+          </span>
         </div>
-        <button class="view-details-btn" data-offer="mara">View Details</button>
-      </div>
-      <div class="offer-price">
-        <div class="old-price">500&nbsp;€</div>
-        <div class="new-price">250&nbsp;€</div>
+        <div class="offer-main-text">50% OFF</div>
+        <div class="offer-desc">See the Big 5</div>
+        <button class="offer-details-btn" data-offer="mara">View Details</button>
       </div>
     </div>
-    <!-- Offer 2: Kenyan Coast -->
+    <!-- Offer Card: Kenyan Coast -->
     <div class="offer-card">
       <div class="offer-img-holder">
         <img src="Kenyan_coast_1.jpg" alt="Kenyan Coast" />
       </div>
-      <div class="offer-card-content">
-        <div class="offer-main-text">30% OFF</div>
-        <div class="offer-desc-group">
-          <div class="offer-desc">Kenyan Coast</div>
-          <div class="offer-highlight">Malindi to Diani</div>
+      <div class="offer-content">
+        <div class="offer-top-row">
+          <span class="offer-destination">Kenyan Coast</span>
+          <span class="offer-prices">
+            <span class="old-price">€300</span>
+            <span class="new-price">€210</span>
+          </span>
         </div>
-        <button class="view-details-btn" data-offer="coast">View Details</button>
-      </div>
-      <div class="offer-price">
-        <div class="old-price">300&nbsp;€</div>
-        <div class="new-price">210&nbsp;€</div>
+        <div class="offer-main-text">30% OFF</div>
+        <div class="offer-desc">Malindi to Diani</div>
+        <button class="offer-details-btn" data-offer="coast">View Details</button>
       </div>
     </div>
   </div>
 </section>
-
-<!-- Offer Modal -->
-<div class="offer-modal" id="offer-modal" aria-modal="true" role="dialog" tabindex="-1">
-  <div class="modal-content" id="modal-content">
-    <button class="modal-close" id="modal-close" aria-label="Close">&times;</button>
-    <div id="modal-details">
-      <!-- Details will be injected by JS -->
-    </div>
-  </div>
-</div>
 
   <!-- Main JS -->
   <script src="script.js"></script>
