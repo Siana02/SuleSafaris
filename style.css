@@ -291,7 +291,18 @@ body {
   background: var(--cta);
   color: #fff;
 }
-
+@media (max-width: 500px) {
+  .hero-ctas {
+    flex-direction: column;
+    gap: 0.7rem;
+    align-items: stretch;
+  }
+  .cta-btn {
+    width: 100%;
+    min-width: unset;
+    box-sizing: border-box;
+  }
+}
 .theme-message {
   position: fixed;
   bottom: 1.5rem;
