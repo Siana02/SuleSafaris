@@ -266,8 +266,8 @@ body.vacation-theme .hero-bg {
 }
 .cta-btn {
   display: inline-block;
-  min-width: 120px;
-  padding: 0.85em 2.2em;
+  min-width: 88px;
+  padding: 0.7em 1.15em;
   font-family: var(--body-font);
   font-size: 1.07rem;
   font-weight: 700;
@@ -282,7 +282,7 @@ body.vacation-theme .hero-bg {
   letter-spacing: 0.01em;
   margin-bottom: 0.6em;
   touch-action: manipulation;
-}
+  }
 .cta-btn:hover, .cta-btn:focus {
   background: var(--cta-hover);
   transform: translateY(-2px) scale(1.04);
