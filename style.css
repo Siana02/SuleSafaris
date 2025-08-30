@@ -87,7 +87,7 @@ body.vacation-theme .hero-bg {
   loading: lazy;
   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
-/* Centered Header Title */
+/* Centered Header Title with White Outline */
 .header-title {
   position: absolute;
   left: 50%;
@@ -100,17 +100,37 @@ body.vacation-theme .hero-bg {
   color: var(--accent, #6d4650);
   text-align: center;
   user-select: none;
-  pointer-events: none; /* so it doesn't block nav/hamburger clicks */
+  pointer-events: none;
   z-index: 1010;
   white-space: nowrap;
   padding: 0 0.6em;
   line-height: 1.2;
+  /* White outline: multiple text-shadows for a strong effect */
+  text-shadow:
+    1.5px 0 0 #fff,
+    -1.5px 0 0 #fff,
+    0 1.5px 0 #fff,
+    0 -1.5px 0 #fff,
+    1px 1px 0 #fff,
+    -1px -1px 0 #fff,
+    1px -1px 0 #fff,
+    -1px 1px 0 #fff;
 }
 
 @media (max-width: 650px) {
   .header-title {
     font-size: 1.09rem;
     padding: 0 0.2em;
+    /* Optionally, slightly smaller shadow for small screens */
+    text-shadow:
+      1px 0 0 #fff,
+      -1px 0 0 #fff,
+      0 1px 0 #fff,
+      0 -1px 0 #fff,
+      0.5px 0.5px 0 #fff,
+      -0.5px -0.5px 0 #fff,
+      0.5px -0.5px 0 #fff,
+      -0.5px 0.5px 0 #fff;
   }
 }
 .nav {
