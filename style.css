@@ -491,7 +491,7 @@ a:focus-visible, button:focus-visible {
   align-items: baseline;
   margin-bottom: 0.5em;
   gap: 1em;
-  flex-wrap: wrap;
+  flex-wrap: nowrap; 
 }
 .offer-destination {
   font-size: 1.2rem;
@@ -500,9 +500,14 @@ a:focus-visible, button:focus-visible {
   letter-spacing: 0.03em;
 }
 .offer-prices {
-  display: flex;
-  gap: 0.5em;
-  align-items: baseline;
+  display: flex;             /* Flex container */
+  justify-content: flex-end; /* Aligns content to the right */
+  align-items: baseline;     /* Aligns text along the baseline */
+  gap: 0.5em;                /* Space between items */
+  
+  white-space: nowrap;       /* Prevents text from wrapping */
+  overflow: hidden;          /* Hides overflow */
+  text-overflow: ellipsis;   /* Adds ellipsis for overflow */
 }
 .old-price {
   color: #b7b7b7;
