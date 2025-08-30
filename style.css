@@ -87,7 +87,32 @@ body.vacation-theme .hero-bg {
   loading: lazy;
   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
+/* Centered Header Title */
+.header-title {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--heading-font, 'Martel', serif);
+  font-size: 1.65rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--accent, #6d4650);
+  text-align: center;
+  user-select: none;
+  pointer-events: none; /* so it doesn't block nav/hamburger clicks */
+  z-index: 1010;
+  white-space: nowrap;
+  padding: 0 0.6em;
+  line-height: 1.2;
+}
 
+@media (max-width: 650px) {
+  .header-title {
+    font-size: 1.09rem;
+    padding: 0 0.2em;
+  }
+}
 .nav {
   flex: 1 1 auto;
   display: flex;
