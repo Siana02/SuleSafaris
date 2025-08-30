@@ -58,10 +58,12 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 0.8rem clamp(1rem, 4vw, 3vw);
-  background: #fff;
+  background: transparent;
   box-shadow: 0 2px 12px rgba(0,0,0,0.04);
-  position: sticky;
+  position: absolute;
   top: 0;
+  left: 0;
+  width: 100%;
   z-index: 1000;
   min-height: 64px;
 }
