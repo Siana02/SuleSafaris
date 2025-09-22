@@ -214,3 +214,36 @@ document.addEventListener('keydown', function(e) {
     closeOfferModal();
   }
 });
+// ===== PACKAGE-CARD SCROLL & ANIMATION LOGIC =====
+document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.package-card');
+    
+    // Initialize first card as active
+    cards[0].classList.add('active');
+    
+    // Slide-up animation on scroll
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, { threshold: 0.1 });
+    
+    cards.forEach(card => observer.observe(card));
+    
+    // Scroll snap enhancement
+    let isScrolling = false;
+    window.addEventListener('scroll', () => {
+        if (!isScrolling) {
+            window.requestAnimationFrame(() => {
+                const snapPosition = window.scrollY;
+                const cardHeight = window.innerHeight;
+                const activeIndex = Math.round(snapPosition / cardHeight);
+                window.scrollTo({ top: activeIndex * cardHeight, behavior: 'smooth' });
+                isScrolling = false;
+            });
+        }
+        isScrolling = true;
+    });
+});
