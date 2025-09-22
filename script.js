@@ -213,3 +213,32 @@ document.addEventListener('keydown', function(e) {
   if (offerModal.classList.contains('active') && (e.key === "Escape" || e.key === "Esc")) 
   });
 });
+// --- Packages Cards: Slide-up Animation, Scroll Snap, Active Shadow ---
+document.addEventListener("DOMContentLoaded", () => {
+  const wrapper = document.querySelector('.packages-wrapper');
+  if (!wrapper) return;
+  const cards = Array.from(wrapper.querySelectorAll('.package-card'));
+  const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+
+  // Helper: activate card in viewport
+  function activateCardsOnScroll() {
+    cards.forEach(card => {
+      const rect = card.getBoundingClientRect();
+      // Card is in viewport (top at or above 0, bottom at or below window height)
+      if (rect.top < windowHeight * 0.8 && rect.bottom > windowHeight * 0.2) {
+        card.classList.add('active');
+      } else {
+        card.classList.remove('active');
+      }
+    });
+  }
+
+  // Initial activation (if cards already visible)
+  activateCardsOnScroll();
+
+  // Listen for scroll and resize to trigger activation
+  wrapper.addEventListener('scroll', activateCardsOnScroll);
+  window.addEventListener('resize', activateCardsOnScroll);
+  // For page scroll (if wrapper isn't scrolled, but cards are in viewport)
+  window.addEventListener('scroll', activateCardsOnScroll);
+});
