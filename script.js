@@ -202,44 +202,149 @@ document.querySelectorAll('.learn-more-btn').forEach(btn => {
     openOfferModal(this.dataset.offer);
   });
 });
-// Modal close button
-modalClose.addEventListener('click', closeOfferModal);
+// Modal close button - only if modal exists
+if (modalClose) {
+  modalClose.addEventListener('click', closeOfferModal);
+}
 
-// Close modal on background click or Escape key
-offerModal.addEventListener('click', function(e) {
-  if (e.target === offerModal) closeOfferModal();
-});
-document.addEventListener('keydown', function(e) {
-  if (offerModal.classList.contains('active') && (e.key === "Escape" || e.key === "Esc")) 
+// Close modal on background click or Escape key - only if modal exists  
+if (offerModal) {
+  offerModal.addEventListener('click', function(e) {
+    if (e.target === offerModal) closeOfferModal();
   });
-});
-// --- Packages Cards: Slide-up Animation, Scroll Snap, Active Shadow ---
+  
+  document.addEventListener('keydown', function(e) {
+    if (offerModal.classList.contains('active') && (e.key === "Escape" || e.key === "Esc")) {
+      closeOfferModal();
+    }
+  });
+}
+// --- Packages Cards: Slide-up Animation with Scroll Control ---
 document.addEventListener("DOMContentLoaded", () => {
   const wrapper = document.querySelector('.packages-wrapper');
   if (!wrapper) return;
+  
   const cards = Array.from(wrapper.querySelectorAll('.package-card'));
-  if (cards.length) cards[0].classList.add('active');
-  const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+  if (cards.length === 0) return;
 
-  // Helper: activate card in viewport
-  function activateCardsOnScroll() {
-    cards.forEach(card => {
-      const rect = card.getBoundingClientRect();
-      // Card is in viewport (top at or above 0, bottom at or below window height)
-      if (rect.top < windowHeight * 0.8 && rect.bottom > windowHeight * 0.2) {
-        card.classList.add('active');
-      } else {
-        card.classList.remove('active');
-      }
-    });
+  let currentIndex = 0;
+  let isTransitioning = false;
+
+  // Set initial state: only first card is active
+  cards.forEach((card, index) => {
+    if (index === 0) {
+      card.classList.add('active');
+    } else {
+      card.classList.remove('active');
+    }
+  });
+
+  // Function to transition to a specific card
+  function goToCard(index) {
+    if (index < 0 || index >= cards.length || index === currentIndex || isTransitioning) {
+      return;
+    }
+
+    isTransitioning = true;
+    
+    // Remove active class from current card
+    cards[currentIndex].classList.remove('active');
+    
+    // Add active class to new card
+    cards[index].classList.add('active');
+    
+    currentIndex = index;
+
+    // Prevent multiple transitions during animation (600ms duration)
+    setTimeout(() => {
+      isTransitioning = false;
+    }, 600);
   }
 
-  // Initial activation (if cards already visible)
-  activateCardsOnScroll();
+  // Function to go to next card
+  function nextCard() {
+    const nextIndex = currentIndex + 1;
+    if (nextIndex < cards.length) {
+      goToCard(nextIndex);
+    }
+  }
 
-  // Listen for scroll and resize to trigger activation
-  wrapper.addEventListener('scroll', activateCardsOnScroll);
-  window.addEventListener('resize', activateCardsOnScroll);
-  // For page scroll (if wrapper isn't scrolled, but cards are in viewport)
-  window.addEventListener('scroll', activateCardsOnScroll);
+  // Function to go to previous card
+  function prevCard() {
+    const prevIndex = currentIndex - 1;
+    if (prevIndex >= 0) {
+      goToCard(prevIndex);
+    }
+  }
+
+  // Throttled scroll handler
+  let scrollThrottle = false;
+  function handleScroll(event) {
+    if (scrollThrottle || isTransitioning) return;
+    
+    scrollThrottle = true;
+    setTimeout(() => {
+      scrollThrottle = false;
+    }, 100); // Throttle scroll events
+
+    event.preventDefault();
+    
+    // Determine scroll direction
+    const delta = event.deltaY || event.detail || (event.wheelDelta && -event.wheelDelta);
+    
+    if (delta > 0) {
+      // Scrolling down - go to next card
+      nextCard();
+    } else if (delta < 0) {
+      // Scrolling up - go to previous card
+      prevCard();
+    }
+  }
+
+  // Add scroll event listeners (wheel for desktop, touch for mobile)
+  wrapper.addEventListener('wheel', handleScroll, { passive: false });
+  
+  // Touch events for mobile
+  let touchStartY = 0;
+  let touchEndY = 0;
+  
+  wrapper.addEventListener('touchstart', (e) => {
+    touchStartY = e.changedTouches[0].screenY;
+  });
+  
+  wrapper.addEventListener('touchend', (e) => {
+    if (isTransitioning || scrollThrottle) return;
+    
+    touchEndY = e.changedTouches[0].screenY;
+    const touchDelta = touchStartY - touchEndY;
+    
+    // Minimum swipe distance to trigger transition
+    if (Math.abs(touchDelta) > 50) {
+      scrollThrottle = true;
+      setTimeout(() => {
+        scrollThrottle = false;
+      }, 100);
+
+      if (touchDelta > 0) {
+        // Swiped up - go to next card
+        nextCard();
+      } else {
+        // Swiped down - go to previous card
+        prevCard();
+      }
+    }
+  });
+
+  // Keyboard navigation (optional)
+  document.addEventListener('keydown', (e) => {
+    if (isTransitioning || scrollThrottle) return;
+    
+    if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+      e.preventDefault();
+      nextCard();
+    } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+      e.preventDefault();
+      prevCard();
+    }
+  });
 });
