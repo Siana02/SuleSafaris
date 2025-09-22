@@ -233,8 +233,7 @@ document.addEventListener('keydown', function(e) {
     closeOfferModal();
   }
 });
-
-// Accessible, animated package cards with scroll wheel navigation
+// Accessible, animated package cards with scroll wheel, touch, and keyboard navigation
 (function() {
   document.documentElement.classList.remove('no-js');
 
@@ -247,12 +246,16 @@ document.addEventListener('keydown', function(e) {
   let activeIndex = 0;
   let isAnimating = false;
 
+  // Ensure wrapper can receive keyboard focus
+  wrapper.setAttribute('tabindex', '0');
+
   function setActiveCard(index, direction) {
     cards.forEach((card, i) => {
       card.classList.remove('active', 'outgoing');
       card.setAttribute('aria-hidden', i !== index);
       card.style.zIndex = i === index ? 10 : 1;
       card.style.pointerEvents = i === index ? 'auto' : 'none';
+      card.setAttribute('tabindex', '-1');
     });
     dots.forEach((dot, i) => {
       dot.classList.toggle('active', i === index);
@@ -270,8 +273,7 @@ document.addEventListener('keydown', function(e) {
     activeIndex = index;
 
     wrapper.setAttribute('aria-activedescendant', `package-card-${index}`);
-    cards[index].setAttribute('tabindex', 0);
-    cards[index].focus();
+    cards[index].setAttribute('tabindex', '0');
   }
 
   setActiveCard(0, null);
@@ -308,6 +310,32 @@ document.addEventListener('keydown', function(e) {
   }
   wrapper.addEventListener('wheel', onWheel, { passive: false });
 
+  // --- Touch support for mobile devices ---
+  let touchStartY = null;
+
+  wrapper.addEventListener('touchstart', function(e) {
+    if (e.touches.length === 1) {
+      touchStartY = e.touches[0].clientY;
+    }
+  }, { passive: true });
+
+  wrapper.addEventListener('touchend', function(e) {
+    if (touchStartY === null) return;
+    const touchEndY = e.changedTouches[0].clientY;
+    const deltaY = touchStartY - touchEndY;
+    const SWIPE_THRESHOLD = 40; // Minimum swipe distance in px
+
+    if (Math.abs(deltaY) > SWIPE_THRESHOLD) {
+      if (deltaY > 0 && activeIndex < totalCards - 1) {
+        setActiveCard(activeIndex + 1, 'down');
+      } else if (deltaY < 0 && activeIndex > 0) {
+        setActiveCard(activeIndex - 1, 'up');
+      }
+    }
+    touchStartY = null;
+  }, { passive: true });
+
+  // --- Keyboard support ---
   wrapper.addEventListener('keydown', function(e) {
     if (isAnimating) return;
     if (e.key === 'ArrowDown' || e.key === 'PageDown') {
