@@ -218,6 +218,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const wrapper = document.querySelector('.packages-wrapper');
   if (!wrapper) return;
   const cards = Array.from(wrapper.querySelectorAll('.package-card'));
+  if (cards.length) cards[0].classList.add('active');
   const windowHeight = window.innerHeight || document.documentElement.clientHeight;
 
   // Helper: activate card in viewport
