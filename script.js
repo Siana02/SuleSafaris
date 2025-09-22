@@ -214,7 +214,8 @@ document.addEventListener('keydown', function(e) {
     closeOfferModal();
   }
 });
-// ===== PACKAGE-CARD STACK SCROLL & ANIMATION LOGIC =====
+
+
 document.addEventListener('DOMContentLoaded', () => {
     const cards = document.querySelectorAll('.package-card');
     let current = 0;
@@ -222,20 +223,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize first card as active
     cards[0].classList.add('active');
 
-    // Optional: IntersectionObserver for additional fade-in (can be kept or removed)
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active');
-            }
-        });
-    }, { threshold: 0.1 });
-
-    cards.forEach(card => observer.observe(card));
+    // Stack cards properly
+    cards.forEach((card, i) => {
+        card.style.zIndex = cards.length - i; // first card on top
+    });
 
     // Wheel scroll to move one card at a time
-    let isThrottled = false; // prevent rapid-fire scrolling
+    let isThrottled = false;
     window.addEventListener('wheel', (e) => {
+        e.preventDefault(); // stop default page scroll
         if (isThrottled) return;
 
         if (e.deltaY > 0 && current < cards.length - 1) {
@@ -250,10 +246,9 @@ document.addEventListener('DOMContentLoaded', () => {
             cards[current].classList.add('active');
         }
 
-        // Throttle scroll to avoid skipping cards
         isThrottled = true;
         setTimeout(() => {
             isThrottled = false;
-        }, 600); // matches CSS transition duration
-    });
+        }, 600); // matches CSS transition
+    }, { passive: false }); // needed for e.preventDefault
 });
