@@ -34,23 +34,30 @@
         </li>
       </ul>
       <!-- Hamburger for mobile -->
-      <button class="hamburger" id="hamburger" aria-label="Open menu">
-        <i class="fas fa-bars"></i>
+     <!-- Hamburger for mobile -->
+<button class="hamburger" id="hamburger"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="mobile-nav">
+  <i class="fas fa-bars"></i>
+</button>
+
+<!-- Mobile Nav Menu (hidden by default, shown on hamburger click) -->
+<div class="mobile-nav" id="mobile-nav"
+     tabindex="-1"
+     aria-modal="true"
+     role="dialog">
+  <ul>
+    <li><a href="#packages">Packages / Pricing</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contacts">Contacts</a></li>
+    <li>
+      <button id="theme-switcher-mobile" aria-label="Switch Theme">
+        <i class="fas fa-adjust"></i>
       </button>
-    </nav>
-    <!-- Mobile Nav Menu (hidden by default, shown on hamburger click) -->
-    <div class="mobile-nav" id="mobile-nav">
-      <ul>
-        <li><a href="#packages">Packages / Pricing</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contacts">Contacts</a></li>
-        <li>
-          <button id="theme-switcher-mobile" aria-label="Switch Theme">
-            <i class="fas fa-adjust"></i>
-          </button>
-        </li>
-      </ul>
-    </div>
+    </li>
+  </ul>
+</div>
   </header>
 
   <!-- Hero Section -->
