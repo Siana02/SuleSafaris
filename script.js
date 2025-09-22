@@ -213,33 +213,112 @@ document.addEventListener('keydown', function(e) {
   if (offerModal.classList.contains('active') && (e.key === "Escape" || e.key === "Esc")) 
   });
 });
-// --- Packages Cards: Slide-up Animation, Scroll Snap, Active Shadow ---
-document.addEventListener("DOMContentLoaded", () => {
-  const wrapper = document.querySelector('.packages-wrapper');
-  if (!wrapper) return;
-  const cards = Array.from(wrapper.querySelectorAll('.package-card'));
-  if (cards.length) cards[0].classList.add('active');
-  const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+// Accessible, animated package cards with scroll wheel navigation
 
-  // Helper: activate card in viewport
-  function activateCardsOnScroll() {
-    cards.forEach(card => {
-      const rect = card.getBoundingClientRect();
-      // Card is in viewport (top at or above 0, bottom at or below window height)
-      if (rect.top < windowHeight * 0.8 && rect.bottom > windowHeight * 0.2) {
-        card.classList.add('active');
-      } else {
-        card.classList.remove('active');
-      }
+(function() {
+  // Add .no-js fallback class if JS disabled (for accessibility)
+  document.documentElement.classList.remove('no-js');
+
+  const wrapper = document.querySelector('.packages-wrapper');
+  const cards = Array.from(wrapper.querySelectorAll('.package-card'));
+  const dots = Array.from(wrapper.querySelectorAll('.progress-dot'));
+  const totalCards = cards.length;
+  let activeIndex = 0;
+  let isAnimating = false;
+
+  // Set initial states: first card active, others hidden
+  function setActiveCard(index, direction) {
+    cards.forEach((card, i) => {
+      card.classList.remove('active', 'outgoing');
+      card.setAttribute('aria-hidden', i !== index);
+      card.style.zIndex = i === index ? 10 : 1;
+      card.style.pointerEvents = i === index ? 'auto' : 'none';
     });
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === index);
+    });
+
+    // Animate outgoing card
+    if (direction !== undefined && direction !== null) {
+      const prev = cards[activeIndex];
+      if (prev && prev !== cards[index]) {
+        prev.classList.add('outgoing');
+        setTimeout(() => prev.classList.remove('outgoing'), 620);
+      }
+    }
+
+    // Animate incoming card
+    cards[index].classList.add('active');
+    activeIndex = index;
+
+    // Focus for keyboard support
+    wrapper.setAttribute('aria-activedescendant', `package-card-${index}`);
+    cards[index].setAttribute('tabindex', 0);
+    cards[index].focus();
   }
 
-  // Initial activation (if cards already visible)
-  activateCardsOnScroll();
+  // Initial setup
+  setActiveCard(0, null);
 
-  // Listen for scroll and resize to trigger activation
-  wrapper.addEventListener('scroll', activateCardsOnScroll);
-  window.addEventListener('resize', activateCardsOnScroll);
-  // For page scroll (if wrapper isn't scrolled, but cards are in viewport)
-  window.addEventListener('scroll', activateCardsOnScroll);
-});
+  // Throttle scroll
+  let lastScroll = 0;
+  const SCROLL_DELAY = 700;
+
+  function onWheel(e) {
+    if (isAnimating) return;
+    const now = Date.now();
+    if (now - lastScroll < SCROLL_DELAY) return;
+    lastScroll = now;
+
+    const delta = e.deltaY || e.detail || e.wheelDelta;
+    if (delta === 0) return;
+
+    if (delta > 0 && activeIndex < totalCards - 1) {
+      isAnimating = true;
+      setActiveCard(activeIndex + 1, 'down');
+      setTimeout(() => { isAnimating = false; }, SCROLL_DELAY);
+      e.preventDefault();
+    } else if (delta < 0 && activeIndex > 0) {
+      isAnimating = true;
+      setActiveCard(activeIndex - 1, 'up');
+      setTimeout(() => { isAnimating = false; }, SCROLL_DELAY);
+      e.preventDefault();
+    } else if (delta > 0 && activeIndex === totalCards - 1) {
+      // End of cards: scroll to next section
+      const nextSection = document.querySelector('#next-section');
+      if (nextSection) {
+        nextSection.scrollIntoView({ behavior: 'smooth' });
+      }
+      e.preventDefault();
+    }
+  }
+  wrapper.addEventListener('wheel', onWheel, { passive: false });
+
+  // Keyboard support (Enter/Space for CTA, ArrowDown/ArrowUp for navigation)
+  wrapper.addEventListener('keydown', function(e) {
+    if (isAnimating) return;
+    if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+      if (activeIndex < totalCards - 1) {
+        setActiveCard(activeIndex + 1, 'down');
+        e.preventDefault();
+      }
+    }
+    if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+      if (activeIndex > 0) {
+        setActiveCard(activeIndex - 1, 'up');
+        e.preventDefault();
+      }
+    }
+    if (e.key === 'Enter' || e.key === ' ') {
+      // Focused CTA button (only active card)
+      const ctaPrimary = cards[activeIndex].querySelector('.package-cta-primary');
+      if (ctaPrimary) ctaPrimary.click();
+      e.preventDefault();
+    }
+  });
+
+  // Accessibility: if JS fails, show all cards stacked vertically
+  window.addEventListener('DOMContentLoaded', () => {
+    document.documentElement.classList.remove('no-js');
+  });
+})();
