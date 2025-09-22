@@ -1140,6 +1140,7 @@ a:focus-visible, button:focus-visible {
 }
 
 .package-cta-secondary {
+  margin-left: auto;
   color: #222;
   font-size: 1.07rem;
   font-weight: 500;
