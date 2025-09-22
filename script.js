@@ -214,8 +214,6 @@ document.addEventListener('keydown', function(e) {
     closeOfferModal();
   }
 });
-
-
 document.addEventListener('DOMContentLoaded', () => {
     const cards = document.querySelectorAll('.package-card');
     let current = 0;
@@ -223,32 +221,72 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize first card as active
     cards[0].classList.add('active');
 
-    // Stack cards properly
+    // Stack cards z-index properly
     cards.forEach((card, i) => {
-        card.style.zIndex = cards.length - i; // first card on top
+        card.style.zIndex = cards.length - i; // first card visually on top
+        card.style.pointerEvents = i === 0 ? 'auto' : 'none'; // only active card reacts
     });
 
-    // Wheel scroll to move one card at a time
+    // Function to activate a card
+    function activateCard(index) {
+        cards.forEach((card, i) => {
+            if (i === index) {
+                card.classList.add('active');
+                card.style.pointerEvents = 'auto';
+                card.style.zIndex = cards.length + 1; // ensure topmost
+            } else {
+                card.classList.remove('active');
+                card.style.pointerEvents = 'none';
+                card.style.zIndex = cards.length - i; // stack below
+            }
+        });
+    }
+
+    // Wheel scroll handling
     let isThrottled = false;
     window.addEventListener('wheel', (e) => {
-        e.preventDefault(); // stop default page scroll
+        e.preventDefault(); // prevent default scrolling
         if (isThrottled) return;
 
         if (e.deltaY > 0 && current < cards.length - 1) {
-            // Scroll down → next card
-            cards[current].classList.remove('active');
             current++;
-            cards[current].classList.add('active');
+            activateCard(current);
         } else if (e.deltaY < 0 && current > 0) {
-            // Scroll up → previous card
-            cards[current].classList.remove('active');
             current--;
-            cards[current].classList.add('active');
+            activateCard(current);
         }
 
         isThrottled = true;
         setTimeout(() => {
             isThrottled = false;
         }, 600); // matches CSS transition
-    }, { passive: false }); // needed for e.preventDefault
+    }, { passive: false });
+
+    // Touch support for mobile
+    let startY = 0;
+    window.addEventListener('touchstart', (e) => {
+        startY = e.touches[0].clientY;
+    });
+
+    window.addEventListener('touchmove', (e) => {
+        e.preventDefault();
+        if (isThrottled) return;
+
+        const deltaY = startY - e.touches[0].clientY;
+        if (deltaY > 30 && current < cards.length - 1) { // swipe up
+            current++;
+            activateCard(current);
+            isThrottled = true;
+        } else if (deltaY < -30 && current > 0) { // swipe down
+            current--;
+            activateCard(current);
+            isThrottled = true;
+        }
+
+        if (isThrottled) {
+            setTimeout(() => {
+                isThrottled = false;
+            }, 600);
+        }
+    }, { passive: false });
 });
