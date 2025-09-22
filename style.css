@@ -502,7 +502,7 @@ a:focus-visible, button:focus-visible {
   font-size: 2.3rem;
   font-weight: 800;
   margin-bottom: 2.2rem;
-  text-align: left;
+  text-align: center;
   color: var(--accent, #129490);
   letter-spacing: -0.5px;
 }
@@ -648,7 +648,7 @@ a:focus-visible, button:focus-visible {
 }
 
 /* Responsive: Stack Cards Vertically, Maintain Internal Split */
-@media (max-width: 900px) {
+@media (min-width: 900px) {
     .best-offers-title {
     text-align: center;
     margin-right: 0;
