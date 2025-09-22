@@ -214,14 +214,15 @@ document.addEventListener('keydown', function(e) {
     closeOfferModal();
   }
 });
-// ===== PACKAGE-CARD SCROLL & ANIMATION LOGIC =====
+// ===== PACKAGE-CARD STACK SCROLL & ANIMATION LOGIC =====
 document.addEventListener('DOMContentLoaded', () => {
     const cards = document.querySelectorAll('.package-card');
-    
+    let current = 0;
+
     // Initialize first card as active
     cards[0].classList.add('active');
-    
-    // Slide-up animation on scroll
+
+    // Optional: IntersectionObserver for additional fade-in (can be kept or removed)
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -229,21 +230,30 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }, { threshold: 0.1 });
-    
+
     cards.forEach(card => observer.observe(card));
-    
-    // Scroll snap enhancement
-    let isScrolling = false;
-    window.addEventListener('scroll', () => {
-        if (!isScrolling) {
-            window.requestAnimationFrame(() => {
-                const snapPosition = window.scrollY;
-                const cardHeight = window.innerHeight;
-                const activeIndex = Math.round(snapPosition / cardHeight);
-                window.scrollTo({ top: activeIndex * cardHeight, behavior: 'smooth' });
-                isScrolling = false;
-            });
+
+    // Wheel scroll to move one card at a time
+    let isThrottled = false; // prevent rapid-fire scrolling
+    window.addEventListener('wheel', (e) => {
+        if (isThrottled) return;
+
+        if (e.deltaY > 0 && current < cards.length - 1) {
+            // Scroll down → next card
+            cards[current].classList.remove('active');
+            current++;
+            cards[current].classList.add('active');
+        } else if (e.deltaY < 0 && current > 0) {
+            // Scroll up → previous card
+            cards[current].classList.remove('active');
+            current--;
+            cards[current].classList.add('active');
         }
-        isScrolling = true;
+
+        // Throttle scroll to avoid skipping cards
+        isThrottled = true;
+        setTimeout(() => {
+            isThrottled = false;
+        }, 600); // matches CSS transition duration
     });
 });
