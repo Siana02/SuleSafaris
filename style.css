@@ -649,15 +649,24 @@ a:focus-visible, button:focus-visible {
 
 /* Responsive: Stack Cards Vertically, Maintain Internal Split */
 @media (max-width: 900px) {
-  .best-offers-cards {
-    flex-direction: column;
-    gap: 1.5rem;
-    align-items: center;
+    .best-offers-title {
+    text-align: center;
+    margin-right: 0;
+    margin-left: auto;
+    max-width: 480px; /* or adjust for your layout */
+    display: block;
+  }
+    .best-offers-cards {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem; /* already present, keeps spacing */
+    justify-content: flex-end; /* align to right under title */
+    align-items: stretch;
+    flex-wrap: nowrap; /* force a row, no wrapping */
   }
   .offer-card {
-    max-width: 98vw;
-    min-width: 0;
-    margin: 0 auto;
+    flex: 0 1 48%; /* each takes up to half the space */
+    max-width: 540px; /* already present, you can adjust */
   }
   .offer-img-holder {
     min-width: 110px;
