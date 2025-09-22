@@ -897,26 +897,14 @@ a:focus-visible, button:focus-visible {
     margin-bottom: 40px;
   }
 }
-.packages-wrapper .package-card {
-  height: 100vh;
-  scroll-snap-align: start; /* each card snaps at start */
-  transform: translateY(100%);
-  opacity: 0;
-  transition: all 0.6s ease-in-out;
-}
-
-.packages-wrapper .package-card.active {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-/* Scroll snap container */
 .packages-wrapper {
-  scroll-snap-type: y mandatory;
+    display: flex;
+    flex-direction: column;
+    scroll-snap-type: y mandatory; /* vertical snap */
 }
 .package-card {
-    height: 100vh;
-    scroll-snap-align: start;
+    height: 100vh; /* full viewport height */
+    scroll-snap-align: start; /* snaps at start */
     display: flex;
     flex-direction: column;
     position: relative;
@@ -928,6 +916,13 @@ a:focus-visible, button:focus-visible {
     background: white;
 }
 
+/* Make the first card visible immediately */
+.package-card:first-child {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Active card animation (for JS scroll observer) */
 .package-card.active {
     transform: translateY(0);
     opacity: 1;
