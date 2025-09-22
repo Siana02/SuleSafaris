@@ -210,8 +210,9 @@ offerModal.addEventListener('click', function(e) {
   if (e.target === offerModal) closeOfferModal();
 });
 document.addEventListener('keydown', function(e) {
-  if (offerModal.classList.contains('active') && (e.key === "Escape" || e.key === "Esc")) 
-  });
+  if (offerModal && offerModal.classList.contains('active') && (e.key === "Escape" || e.key === "Esc")) {
+    closeOfferModal();
+  }
 });
 // Accessible, animated package cards with scroll wheel navigation
 
