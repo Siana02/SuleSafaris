@@ -1418,10 +1418,15 @@ a:focus-visible, button:focus-visible {
 /* Mobile: stacked full-width */
 @media (max-width: 767px) {
   .package-card {
+      left: 16px;
+    right: 16px;
+    top: 32px;
+    bottom: 32px;
+    width: auto;
+    border-radius: 32px;  /* even rounder for mobile/tablet */
     width: 100vw;
     height: 100vh;
     top: 0; left: 0; right: 0; bottom: 0;
-    border-radius: 0;
     box-shadow: 0px 8px 20px rgba(0,0,0,0.11), 0 2px 8px rgba(0,0,0,0.07);
   }
   .package-card-image {
@@ -1521,6 +1526,7 @@ a:focus-visible, button:focus-visible {
 
 .about-feature-desc {
   font-size: 1.01em;
+  font-style: italic;
   color: #444;
   font-weight: 500;
   line-height: 1.4;
