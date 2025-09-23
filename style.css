@@ -322,8 +322,16 @@ body.vacation-theme .hero-bg {
   word-break: keep-all;
   overflow-wrap: anywhere;
 }
+  
+.hero-title .word {
+  display: inline-block;
+  /* Optional: add margin if you want spacing between words */
+  margin-right: 0.25em;
+}
+
 .hero-title .letter {
   opacity: 0;
+  display: inline-block;
   white-space: pre;
   display: inline-block;
   transform: scale(0.7) translateY(30px);
