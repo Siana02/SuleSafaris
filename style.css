@@ -1609,14 +1609,7 @@ a:focus-visible, button:focus-visible {
 
 
 
-
-
 /* === Service Highlights Belt === */
-.service-highlights-belt {
-  /* Ensure no border on container */
-  border: none !important;
-}
-
 .service-highlights-belt .highlight-list {
   display: flex;
   flex-direction: row;
@@ -1625,7 +1618,6 @@ a:focus-visible, button:focus-visible {
   margin: 0;
   padding: 0;
   list-style: none;
-  border: none !important;
 }
 
 .service-highlights-belt .highlight-card {
@@ -1634,9 +1626,9 @@ a:focus-visible, button:focus-visible {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 2.1rem 1rem 1.7rem 1rem;
-  background: #fff;
-  border-top: 4px solid #FF8200; /* ensures top border on each card */
+  padding: 1.5rem 0.5rem 1.2rem 0.5rem;
+  background: transparent;
+  border-top: 4px solid var(--cta);
   border-radius: 1.2em;
   box-shadow: 0 4px 24px rgba(0,0,0,0.08);
   min-width: 0;
@@ -1644,24 +1636,67 @@ a:focus-visible, button:focus-visible {
   box-sizing: border-box;
   position: relative;
   cursor: default;
-  transition: box-shadow 0.18s, transform 0.18s, background 0.15s;
-  margin: 0; /* important for grid */
+  transition: box-shadow 0.18s, background 0.14s, transform 0.18s;
 }
 
-/* Tablet and mobile 2x2 grid */
+/* Floating effect on hover/focus for better UI/UX */
+.service-highlights-belt .highlight-card:hover,
+.service-highlights-belt .highlight-card:focus-within {
+  box-shadow: 0 8px 36px rgba(0,0,0,0.13);
+  background: #faf6f2;
+  transform: translateY(-3px) scale(1.03);
+}
+
+/* Icon styling: restore original size and color variable */
+.service-highlights-belt .highlight-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5em;
+  height: 2.5em;
+  margin-bottom: 0.85em;
+  color: var(--cta);
+  font-size: 2.4rem;
+  transition: color 0.17s, filter 0.17s;
+}
+.service-highlights-belt .highlight-card:hover .highlight-icon,
+.service-highlights-belt .highlight-card:focus-within .highlight-icon {
+  color: var(--cta-hover);
+  filter: drop-shadow(0 1px 6px rgba(0,0,0,0.06));
+}
+
+/* Text styling: restore original size and variables */
+.service-highlights-belt .highlight-text {
+  text-align: center;
+  color: var(--accent);
+  font-family: var(--body-font);
+  font-size: 1.09rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.35;
+  min-width: 0;
+  margin: 0;
+  padding: 0 0.5em;
+  word-break: break-word;
+  white-space: normal;
+  user-select: text;
+}
+
+/* --- Responsive for Tablet/iPad/Mobile: 2x2 grid --- */
 @media (max-width: 900px) {
   .service-highlights-belt .highlight-list {
+    display: flex;
     flex-wrap: wrap;
     flex-direction: row;
   }
   .service-highlights-belt .highlight-card {
     width: 50%;
-    min-width: 0;
+    min-width: 160px;
     margin-bottom: 2em;
   }
 }
 
-/* Mobile 2x2 grid */
+/* Mobile: 2x2 grid, maintain icon/text sizing */
 @media (max-width: 600px) {
   .service-highlights-belt .highlight-list {
     flex-wrap: wrap;
@@ -1669,13 +1704,24 @@ a:focus-visible, button:focus-visible {
   }
   .service-highlights-belt .highlight-card {
     width: 50%;
-    padding: 1.3rem 0.4rem 1.2rem 0.4rem;
+    min-width: 0;
+    padding: 1.2rem 0.2rem 1.2rem 0.2rem;
     margin-bottom: 1.3em;
+  }
+  .service-highlights-belt .highlight-icon {
+    font-size: 2.4rem;
+    width: 2.5em;
+    height: 2.5em;
+    margin-bottom: 0.85em;
+  }
+  .service-highlights-belt .highlight-text {
+    font-size: 1.09rem;
+    padding: 0 0.1em;
   }
 }
 
-/* Remove any unwanted borders on parent containers */
-.service-highlights-belt,
-.service-highlights-belt .highlight-list {
-  border: none !important;
+/* Accessibility: focus */
+.service-highlights-belt .highlight-card:focus-within {
+  outline: 2px solid var(--cta);
+  outline-offset: 2px;
 }
