@@ -318,9 +318,12 @@ body.vacation-theme .hero-bg {
   font-weight: 700;
   text-shadow: 0 3px 16px rgba(0,0,0,0.19);
   letter-spacing: 0.01em;
+  white-space: normal;
+  word-break: keep-all;
 }
 .hero-title .letter {
   opacity: 0;
+  white-space: pre;
   display: inline-block;
   transform: scale(0.7) translateY(30px);
   animation: popInFade 0.5s cubic-bezier(.21,.7,.51,1.01) forwards;
