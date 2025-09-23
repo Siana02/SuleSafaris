@@ -205,7 +205,6 @@ body, button, a, ul, li, .header {
   position: fixed !important;
   top: 12px !important;
   right: 12px !important;
-  background: yellow !important;
   z-index: 9999 !important;
   width: 50px !important;
   height: 50px !important;
@@ -258,6 +257,11 @@ body, button, a, ul, li, .header {
     display: flex;
   }
   .header-title {
+  max-width: 50vw;
+  padding: 0 0.2em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  z-index: 10;
     max-width: 55vw;
     right: auto;
     left: 50%;
