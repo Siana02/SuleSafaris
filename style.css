@@ -1618,6 +1618,7 @@ a:focus-visible, button:focus-visible {
   margin: 0;
   padding: 0;
   list-style: none;
+  box-sizing: border-box;
 }
 
 .service-highlights-belt .highlight-card {
@@ -1628,7 +1629,7 @@ a:focus-visible, button:focus-visible {
   justify-content: flex-start;
   padding: 1.5rem 0.5rem 1.2rem 0.5rem;
   background: transparent;
-  border-top: 4px solid var(--cta);
+  border-top: 4px solid var(--cta); /* accent color from theme */
   border-radius: 1.2em;
   box-shadow: 0 4px 24px rgba(0,0,0,0.08);
   min-width: 0;
@@ -1691,8 +1692,8 @@ a:focus-visible, button:focus-visible {
   }
   .service-highlights-belt .highlight-card {
     width: 50%;
-    min-width: 160px;
     margin-bottom: 2em;
+    box-sizing: border-box;
   }
 }
 
@@ -1704,9 +1705,9 @@ a:focus-visible, button:focus-visible {
   }
   .service-highlights-belt .highlight-card {
     width: 50%;
-    min-width: 0;
     padding: 1.2rem 0.2rem 1.2rem 0.2rem;
     margin-bottom: 1.3em;
+    box-sizing: border-box;
   }
   .service-highlights-belt .highlight-icon {
     font-size: 2.4rem;
