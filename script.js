@@ -459,3 +459,27 @@ if (countdownSection) {
     document.documentElement.classList.remove('no-js');
   });
 })();
+
+// Expand/hide About details on Learn More button click
+document.querySelector('.about-learn-more-cta').addEventListener('click', function() {
+  const expanded = document.querySelector('.about-expanded-content');
+  if (expanded.style.display === "none" || expanded.style.display === "") {
+    expanded.style.display = "block";
+    expanded.scrollIntoView({ behavior: "smooth", block: "center" });
+  } else {
+    expanded.style.display = "none";
+  }
+});
+
+// Expand About section if "About" in nav is clicked
+// This requires your nav About link to have href="#about" or a data attribute
+document.querySelectorAll('a[href="#about"], .nav-about-link').forEach(function(link) {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    // Scroll to section and show expanded content
+    const aboutSection = document.getElementById('about');
+    aboutSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    const expanded = aboutSection.querySelector('.about-expanded-content');
+    expanded.style.display = "block";
+  });
+});
