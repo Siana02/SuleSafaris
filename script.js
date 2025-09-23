@@ -135,31 +135,18 @@ function fadeInHero() {
 
 const hamburger = document.getElementById('hamburger');
 const mobileNav = document.getElementById('mobile-nav');
-const closeX = document.getElementById('close-x');
 
-// Hamburger open logic
-function openMenu() {
-  hamburger.classList.add('open');
-  mobileNav.classList.add('open');
-  closeX.classList.add('open');
-  hamburger.setAttribute('aria-expanded', 'true');
-  document.body.style.overflow = 'hidden'; // Prevent background scroll
+// Only use the hamburger button that morphs to X
+function toggleMenu() {
+  const isOpen = mobileNav.classList.contains('open');
+  hamburger.classList.toggle('open', !isOpen);
+  mobileNav.classList.toggle('open', !isOpen);
+  hamburger.setAttribute('aria-expanded', !isOpen ? 'true' : 'false');
+  document.body.style.overflow = !isOpen ? 'hidden' : '';
 }
 
-// Hamburger close logic
-function closeMenu() {
-  hamburger.classList.remove('open');
-  mobileNav.classList.remove('open');
-  closeX.classList.remove('open');
-  hamburger.setAttribute('aria-expanded', 'false');
-  document.body.style.overflow = '';
-}
-
-// Hamburger click
-hamburger.addEventListener('click', openMenu);
-
-// Close X click
-closeX.addEventListener('click', closeMenu);
+// Hamburger click toggles menu
+hamburger.addEventListener('click', toggleMenu);
 
 // Click outside to close
 document.addEventListener('mousedown', function(e) {
@@ -168,17 +155,24 @@ document.addEventListener('mousedown', function(e) {
     !mobileNav.contains(e.target) &&
     !hamburger.contains(e.target)
   ) {
-    closeMenu();
+    toggleMenu();
   }
 });
+
 // Escape key closes menu
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape' && mobileNav.classList.contains('open')) {
-    closeMenu();
+    toggleMenu();
   }
 });
+
+// Menu item click closes menu
 document.querySelectorAll('.mobile-nav-list a, .mobile-nav-list button').forEach(item => {
-  item.addEventListener('click', closeMenu);
+  item.addEventListener('click', function() {
+    if (mobileNav.classList.contains('open')) {
+      toggleMenu();
+    }
+  });
 });
 
 // Accessibility: focus trap
