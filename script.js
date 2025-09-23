@@ -95,6 +95,22 @@ if (themeSwitcherMobile) {
   });
 }
 
+// Letter-by-letter pop-in for hero-title
+document.addEventListener("DOMContentLoaded", function() {
+  const heroTitle = document.querySelector('.hero-title');
+  if (heroTitle) {
+    const text = heroTitle.textContent;
+    heroTitle.textContent = ''; // Clear the text
+    text.split('').forEach((char, i) => {
+      const span = document.createElement('span');
+      span.textContent = char;
+      span.classList.add('letter');
+      span.style.animationDelay = `${i * 0.045}s`;
+      heroTitle.appendChild(span);
+    });
+  }
+});
+
 // 7. Fadein animation for hero content
 function fadeInHero() {
   const heroContent = document.querySelector('.hero-content');
