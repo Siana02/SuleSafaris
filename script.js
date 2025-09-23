@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", function() {
     heroTitle.textContent = ''; // Clear the text
     text.split('').forEach((char, i) => {
       const span = document.createElement('span');
-      span.textContent = char;
+      span.innerHTML = char === ' ' ? '&nbsp;' : char; // <-- fix: preserve space
       span.classList.add('letter');
       span.style.animationDelay = `${i * 0.045}s`;
       heroTitle.appendChild(span);
