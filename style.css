@@ -1323,62 +1323,45 @@ a:focus-visible, button:focus-visible {
 }
 
 /* Responsive */
-@media (max-width: 500px) {
+@media (max-width: 767px) {
+  /* Package card adjustments */
+  .package-card {
+    left: 16px;
+    right: 16px;
+    top: 32px;
+    bottom: 32px;
+    width: auto;
+    border-radius: 32px;
+    width: 100vw;
+    height: 100vh;
+    top: 0; left: 0; right: 0; bottom: 0;
+    box-shadow: 0px 8px 20px rgba(0,0,0,0.11), 0 2px 8px rgba(0,0,0,0.07);
+  }
+  .package-card-image {
+    height: 160px;
+    border-radius: 0;
+  }
+  .package-card-content {
+    padding: 16px 10px;
+  }
+  .package-progress-indicator {
+    right: 8px;
+    gap: 9px;
+  }
+
+  /* Slightly larger CTA button and icon */
   .package-cta-primary {
-    font-size: 1.02rem;
-    min-height: 40px;
-    padding-left: 0.7em;
+    font-size: 1.12rem;        /* increased from 1.02rem */
+    min-height: 46px;          /* increased from 40px */
+    padding-left: 1em;         /* increased from 0.7em */
+    padding-right: 1em;        /* add right padding for balance */
   }
   .package-cta-primary-icon,
   .package-cta-primary-icon svg {
-    width: 40px;
-    height: 40px;
-    min-width: 40px;
+    width: 48px;               /* increased from 40px */
+    height: 48px;              /* increased from 40px */
+    min-width: 48px;
   }
-}
-
-.package-cta-secondary {
-  margin-righ: auto;
-  color: #222;
-  font-size: 1.07rem;
-  font-weight: 500;
-  text-decoration: underline;
-  border-radius: 24px;
-  padding: 0.7em 1.2em;
-  background: none;
-  transition: color 0.2s;
-  cursor: pointer;
-}
-.package-cta-secondary:hover, .package-cta-secondary:focus {
-  color: #FF6B35;
-}
-
-/* Progress Indicator: dots on right side */
-.package-progress-indicator {
-  position: absolute;
-  top: 50%;
-  right: 36px;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  gap: 13px;
-  z-index: 20;
-  pointer-events: none;
-  user-select: none;
-}
-.progress-dot {
-  width: 13px;
-  height: 13px;
-  border-radius: 50%;
-  background: #e7e7e7;
-  opacity: 0.9;
-  transition: background 0.3s, box-shadow 0.3s;
-  box-shadow: 0 0 0 0 #FF6B35;
-}
-.progress-dot.active {
-  background: #FF6B35;
-  box-shadow: 0 0 0 3px rgba(255,107,53,0.21);
-  opacity: 1;
 }
 
 /* Tablet: stacked centered */
@@ -1415,32 +1398,6 @@ a:focus-visible, button:focus-visible {
   }
 }
 
-/* Mobile: stacked full-width */
-@media (max-width: 767px) {
-  .package-card {
-      left: 16px;
-    right: 16px;
-    top: 32px;
-    bottom: 32px;
-    width: auto;
-    border-radius: 32px;  /* even rounder for mobile/tablet */
-    width: 100vw;
-    height: 100vh;
-    top: 0; left: 0; right: 0; bottom: 0;
-    box-shadow: 0px 8px 20px rgba(0,0,0,0.11), 0 2px 8px rgba(0,0,0,0.07);
-  }
-  .package-card-image {
-    height: 160px;
-    border-radius: 0;
-  }
-  .package-card-content {
-    padding: 16px 10px;
-  }
-  .package-progress-indicator {
-    right: 8px;
-    gap: 9px;
-  }
-}
 
 /* Accessibility fallback: vertical stack if JS fails */
 .no-js .package-card {
