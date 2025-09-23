@@ -219,15 +219,20 @@ body, button, a, ul, li, .header {
   transition: transform 0.6s cubic-bezier(.77,0,.175,1), background 0.6s;
 }
 
+.hamburger .burger-line:nth-child(1) {
+  width: 28px;
+}
+.hamburger .burger-line:nth-child(2) {
+  width: 30px;
+}
 .hamburger.open .burger-line:nth-child(1) {
   transform: translateY(7px) rotate(45deg);
-  background: #222;
+  width: 30px;
 }
 .hamburger.open .burger-line:nth-child(2) {
   transform: translateY(-7px) rotate(-45deg);
-  background: #222;
+  width: 28px;
 }
-
 /* Show hamburger only on mobile/tablet */
 @media (max-width: 900px) {
   .hamburger {
@@ -280,6 +285,9 @@ body, button, a, ul, li, .header {
 .close-x {
   background: none;
   border: none;
+  outline: none;
+  box-shadow: none;
+  background: none;
   width: 36px;
   height: 36px;
   padding: 0;
@@ -289,6 +297,9 @@ body, button, a, ul, li, .header {
   justify-content: center;
   position: relative;
 }
+.close-x:focus {
+  outline: none;
+}
 .close-x .burger-line {
   width: 28px;
   height: 3px;
@@ -297,13 +308,17 @@ body, button, a, ul, li, .header {
   border-radius: 2px;
   transition: transform 0.6s cubic-bezier(.77,0,.175,1), background 0.6s;
 }
-
-/* X state for close button */
+.close-x .burger-line:nth-child(1) {
+  width: 30px;
+}
+.close-x .burger-line:nth-child(2) {
+  width: 28px;
+}
 .close-x.open .burger-line:nth-child(1) {
-  transform: translateY(7px) rotate(45deg);
+  transform: translateY(6px) rotate(45deg);
 }
 .close-x.open .burger-line:nth-child(2) {
-  transform: translateY(-7px) rotate(-45deg);
+  transform: translateY(-6px) rotate(-45deg);
 }
 
 /* Mobile menu items */
