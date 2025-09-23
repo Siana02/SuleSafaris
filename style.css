@@ -244,6 +244,13 @@ body, button, a, ul, li, .header {
   .hamburger {
     display: flex;
   }
+  .header-title {
+    max-width: 55vw;
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
 }
 
 /* Mobile Nav Styles */
