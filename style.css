@@ -106,10 +106,13 @@ body, button, a, ul, li, .header {
   text-align: center;
   user-select: none;
   pointer-events: none;
-  z-index: 1010;
+  z-index: 10;
   white-space: nowrap;
-  padding: 0 0.6em;
+  padding: 0 0.2em;
+    max-width: 60vw;
   line-height: 1.2;
+    overflow: hidden;
+  text-overflow: ellipsis;
   /* White outline: multiple text-shadows for a strong effect */
   text-shadow:
     1.5px 0 0 #fff,
@@ -136,6 +139,8 @@ body, button, a, ul, li, .header {
       -0.5px -0.5px 0 #fff,
       0.5px -0.5px 0 #fff,
       -0.5px 0.5px 0 #fff;
+      overflow: hidden;
+  text-overflow: ellipsis;
   }
 }
 .nav {
@@ -207,7 +212,7 @@ body, button, a, ul, li, .header {
   cursor: pointer;
   padding: 0;
   position: relative;
-  z-index: 12;
+  z-index: 1011;
 }
 
 .hamburger .burger-line {
