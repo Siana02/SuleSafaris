@@ -526,21 +526,61 @@ body, button, a, ul, li, .header {
   transform: translateY(-2px) scale(1.04);
 }
 .cta-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65em;
   background: transparent;
   color: var(--cta);
   border: 2px solid var(--cta);
   box-shadow: none;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0.5em 1.2em 0.5em 1em;
+  font-size: 1.07rem;
+  border-radius: 2em;
+  transition: border-color 0.18s, background 0.18s, color 0.18s;
 }
-.cta-btn i {
-  margin-left: 0.5em;
-  font-size: 1em;
-  vertical-align: middle;
+
+.cta-secondary-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2em;
+  height: 2em;
 }
+
+.cta-secondary-icon svg {
+  display: block;
+  width: 1.7em;
+  height: 1.7em;
+}
+
 .cta-secondary:hover, .cta-secondary:focus {
-  background: var(--cta);
+  background: transparent;
   color: #fff;
+  border-color: var(--cta);
 }
+
+.cta-secondary:hover .cta-secondary-icon svg circle,
+.cta-secondary:focus .cta-secondary-icon svg circle {
+  fill: var(--cta);
+}
+
+/* Responsive adjustments */
 @media (max-width: 500px) {
+  .cta-secondary {
+    font-size: 0.99rem;
+    padding: 0.5em 1em;
+  }
+  .cta-secondary-icon {
+    width: 1.5em;
+    height: 1.5em;
+  }
+  .cta-secondary-icon svg {
+    width: 1.2em;
+    height: 1.2em;
+  }
+}
   .hero-ctas {
     flex-direction: column;
     gap: 0.7rem;
