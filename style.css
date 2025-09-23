@@ -528,31 +528,35 @@ body, button, a, ul, li, .header {
 .cta-secondary {
   display: inline-flex;
   align-items: center;
-  gap: 1em;
-  background: rgba(255,255,255,0.16); /* subtle translucency */
+  justify-content: center;
+  background: rgba(255,255,255,0.13); /* subtle translucency */
   color: #fff;
   border: 2.5px solid #fff;
-  box-shadow: none;
   font-weight: 700;
   cursor: pointer;
-  padding: 0.75em 1.45em 0.75em 1.15em;
+  padding: 0 0 0 1.15em; /* No right padding, left padding for text */
   font-size: 1.18rem;
   border-radius: 2em;
+  min-height: 48px;
   transition: border-color 0.18s, background 0.18s, color 0.18s;
+  overflow: hidden;
 }
 
 .cta-secondary-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.8em;
-  height: 2.8em;
+  height: 48px;
+  width: 48px;
+  min-width: 48px;
+  margin-left: 0.85em;
+  margin-right: -2px; /* Flush with right border */
 }
 
 .cta-secondary-icon svg {
+  width: 48px;
+  height: 48px;
   display: block;
-  width: 2.8em;
-  height: 2.8em;
 }
 
 .cta-secondary-icon svg circle {
@@ -561,7 +565,7 @@ body, button, a, ul, li, .header {
 
 .cta-secondary:hover,
 .cta-secondary:focus {
-  background: rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.23);
   color: #fff;
   border-color: #fff;
 }
@@ -575,15 +579,14 @@ body, button, a, ul, li, .header {
 @media (max-width: 500px) {
   .cta-secondary {
     font-size: 1.02rem;
-    padding: 0.55em 0.9em;
+    min-height: 40px;
+    padding-left: 0.7em;
   }
-  .cta-secondary-icon {
-    width: 2em;
-    height: 2em;
-  }
+  .cta-secondary-icon,
   .cta-secondary-icon svg {
-    width: 2em;
-    height: 2em;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
   }
 }
   .hero-ctas {
