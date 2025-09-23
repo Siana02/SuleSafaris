@@ -202,7 +202,10 @@ body, button, a, ul, li, .header {
 
 /* Hamburger styles -- only two lines */
 .hamburger {
-  display: flex;
+  display: flex !important;
+  position: relative !important;
+  background: none !important;
+  z-index: 9999 !important;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -217,6 +220,12 @@ body, button, a, ul, li, .header {
 }
 
 .hamburger .burger-line {
+  background: #222 !important;
+  width: 28px !important;
+  height: 3px !important;
+  margin: 4px 0 !important;
+  display: block !important;
+  opacity: 1 !important;
   width: 28px;
   height: 3px;
   background: var(--accent, #6d4650);
