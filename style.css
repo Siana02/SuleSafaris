@@ -320,56 +320,7 @@ body, button, a, ul, li, .header {
   margin: 0.3em 0 0.7em 0;  /* Top margin for space below header, bottom margin for space above first item */
   border: none;
 }
-/* Close X button (same as hamburger, morphs into X) */
-.close-x {
-  background: none;
-  border: none;
-  outline: none;
-  box-shadow: none;
-  background: none;
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: relative;
-}
-.close-x:focus,
-.close-x:active {
-  outline: none !important;
-  box-shadow: none !important;
-}
 
-
-  .close-x .burger-line {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 28px;
-  height: 3px;
-  background: #222;
-  border-radius: 2px;
-  transform: translate(-50%, -50%);
-  transition: tra
-  margin: 4px 0;
-  transition: transform 0.3s;
-}
-.close-x .burger-line:nth-child(1) {
-  width: 28px;
-}
-.close-x .burger-line:nth-child(2) {
-  width: 28px;
-}
-
-/* When "open" (show X) – rotate lines */
-.close-x.open .burger-line:nth-child(1) {
-  transform: translate(-50%, -50%) rotate(45deg);
-}
-.close-x.open .burger-line:nth-child(2) {
-  transform: translate(-50%, -50%) rotate(-45deg);
-}
 
 /* Mobile menu items */
 .mobile-nav-list {
