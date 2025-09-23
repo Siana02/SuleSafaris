@@ -200,60 +200,51 @@ body, button, a, ul, li, .header {
 }
 #theme-switcher:hover { color: var(--cta-hover); background: rgba(0,0,0,0.06); }
 
-/* Hamburger styles -- only two lines */
 .hamburger {
-  display: flex !important;
-  position: relative !important;
-  background: none !important;
-  z-index: 9999 !important;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
+  position: relative;
   background: none;
   border: none;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 0;
-  position: relative;
-  z-index: 1011;
+  z-index: 2000;
 }
 
+/* Two lines, absolutely centered */
 .hamburger .burger-line {
-  background: #222 !important;
-  width: 28px !important;
-  height: 3px !important;
-  margin: 4px 0 !important;
-  display: block !important;
-  opacity: 1 !important;
-  width: 28px;
-  height: 3px;
-  background: var(--accent, #6d4650);
-  box-shadow: 0 0 2px rgba(0,0,0,0.24), 0 1px 4px rgba(0,0,0,0.11);
-  margin: 4px 0;
-  border-radius: 2px;
+  position: absolute;
   left: 50%;
   top: 50%;
+  width: 28px;
+  height: 3px;
+  background: var(--accent, #222);
+  border-radius: 2px;
+  box-shadow: 0 0 2px rgba(0,0,0,0.24), 0 1px 4px rgba(0,0,0,0.11);
   transition: transform 0.3s cubic-bezier(.77,0,.175,1);
-  transform: translate(-50%, -50%);
 }
 
-/* Hamburger state: lines stacked with small vertical offset */
+/* Hamburger state: lines close together */
 .hamburger .burger-line:first-child {
-  transform: translate(-50%, -50%) translateY(-5px) rotate(0deg);
+  transform: translate(-50%, -50%) translateY(-5px) rotate(0);
 }
 .hamburger .burger-line:last-child {
-  transform: translate(-50%, -50%) translateY(5px) rotate(0deg);
+  transform: translate(-50%, -50%) translateY(5px) rotate(0);
 }
 
-/* X state: lines cross at center, NO extra offset */
+/* X state: lines cross at center */
 .hamburger.open .burger-line:first-child {
   transform: translate(-50%, -50%) rotate(45deg);
 }
 .hamburger.open .burger-line:last-child {
   transform: translate(-50%, -50%) rotate(-45deg);
 }
-/* Show hamburger only on mobile/tablet */
+
+
+
 @media (min-width: 901px) {
   .hamburger {
     display: none !important;
