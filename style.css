@@ -283,6 +283,12 @@ body, button, a, ul, li, .header {
   transition: height 0.6s cubic-bezier(.77,0,.175,1), opacity 0.6s;
   opacity: 0;
   pointer-events: none;
+    /* Sleek transition: transform+opacity */
+  transform: translateY(-40px);
+  transition: 
+    height 0.6s cubic-bezier(.77,0,.175,1),
+    opacity 0.5s cubic-bezier(.77,0,.175,1),
+    transform 0.5s cubic-bezier(.77,0,.175,1);
 }
 
 /* When menu is open */
@@ -292,6 +298,8 @@ body, button, a, ul, li, .header {
   max-height: 450px;
   opacity: 1;
   pointer-events: all;
+  transform: translateY(0);
+  
 }
 
 /* Mobile nav header (logo + X) */
@@ -330,7 +338,21 @@ body, button, a, ul, li, .header {
   width: 100%;
   display: flex;
   justify-content: center;
+  opacity: 0;
+    transform: translateY(25px);
+  transition: 
+    opacity 0.5s cubic-bezier(.77,0,.175,1),
+    transform 0.5s cubic-bezier(.77,0,.175,1);
 }
+.mobile-nav.open .mobile-nav-list li {
+  opacity: 1;
+  transform: translateY(0);
+}
+.mobile-nav.open .mobile-nav-list li:nth-child(1) { transition-delay: 0.1s; }
+.mobile-nav.open .mobile-nav-list li:nth-child(2) { transition-delay: 0.18s; }
+.mobile-nav.open .mobile-nav-list li:nth-child(3) { transition-delay: 0.26s; }
+.mobile-nav.open .mobile-nav-list li:nth-child(4) { transition-delay: 0.34s; }
+/* Add more as needed for more items */
 
 .mobile-nav-list a,
 .mobile-nav-list button {
