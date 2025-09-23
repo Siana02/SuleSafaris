@@ -320,6 +320,7 @@ body.vacation-theme .hero-bg {
   letter-spacing: 0.01em;
   white-space: normal;
   word-break: keep-all;
+  overflow-wrap: anywhere;
 }
 .hero-title .letter {
   opacity: 0;
