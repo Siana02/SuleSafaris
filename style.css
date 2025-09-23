@@ -529,15 +529,15 @@ body, button, a, ul, li, .header {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255,255,255,0.13); /* subtle translucency */
+  background: rgba(255,255,255,0.13);
   color: #fff;
   border: 2.5px solid #fff;
   font-weight: 700;
   cursor: pointer;
-  padding: 0 0 0 1.15em; /* No right padding, left padding for text */
+  padding: 0 0 0 1.2em; /* Padding only on left for text */
   font-size: 1.18rem;
   border-radius: 2em;
-  min-height: 48px;
+  min-height: 52px;       /* Force button to be tall enough for icon */
   transition: border-color 0.18s, background 0.18s, color 0.18s;
   overflow: hidden;
 }
@@ -546,21 +546,17 @@ body, button, a, ul, li, .header {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 48px;
-  width: 48px;
-  min-width: 48px;
+  height: 52px;
+  width: 52px;
+  min-width: 52px;
   margin-left: 0.85em;
-  margin-right: -2px; /* Flush with right border */
+  margin-right: -2.5px;  /* Ensures the circle touches the border */
 }
 
 .cta-secondary-icon svg {
-  width: 48px;
-  height: 48px;
+  width: 52px;
+  height: 52px;
   display: block;
-}
-
-.cta-secondary-icon svg circle {
-  transition: fill 0.18s;
 }
 
 .cta-secondary:hover,
@@ -575,7 +571,7 @@ body, button, a, ul, li, .header {
   fill: var(--cta);
 }
 
-/* Responsive adjustments */
+/* Responsive */
 @media (max-width: 500px) {
   .cta-secondary {
     font-size: 1.02rem;
