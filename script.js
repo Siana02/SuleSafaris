@@ -130,35 +130,68 @@ function fadeInHero() {
   }
 }
 
-// 8. Hamburger/mobile nav
+
+// Mobile Hamburger Menu Logic
+
 const hamburger = document.getElementById('hamburger');
 const mobileNav = document.getElementById('mobile-nav');
-function openMobileNav() {
-  if (mobileNav) {
-    mobileNav.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
+const closeX = document.getElementById('close-x');
+
+// Hamburger open logic
+function openMenu() {
+  hamburger.classList.add('open');
+  mobileNav.classList.add('open');
+  closeX.classList.add('open');
+  hamburger.setAttribute('aria-expanded', 'true');
+  document.body.style.overflow = 'hidden'; // Prevent background scroll
 }
-function closeMobileNav() {
-  if (mobileNav) {
-    mobileNav.classList.remove('active');
-    document.body.style.overflow = '';
-  }
+
+// Hamburger close logic
+function closeMenu() {
+  hamburger.classList.remove('open');
+  mobileNav.classList.remove('open');
+  closeX.classList.remove('open');
+  hamburger.setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
 }
-if (hamburger) hamburger.addEventListener('click', openMobileNav);
-if (mobileNav) {
-  mobileNav.addEventListener('click', (e) => {
-    if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON') closeMobileNav();
-  });
-}
-document.addEventListener('click', (e) => {
+
+// Hamburger click
+hamburger.addEventListener('click', openMenu);
+
+// Close X click
+closeX.addEventListener('click', closeMenu);
+
+// Click outside to close
+document.addEventListener('mousedown', function(e) {
   if (
-    mobileNav &&
-    mobileNav.classList.contains('active') &&
+    mobileNav.classList.contains('open') &&
     !mobileNav.contains(e.target) &&
-    (!hamburger || !hamburger.contains(e.target))
+    !hamburger.contains(e.target)
   ) {
-    closeMobileNav();
+    closeMenu();
+  }
+});
+
+// Escape key closes menu
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && mobileNav.classList.contains('open')) {
+    closeMenu();
+  }
+});
+
+// Accessibility: focus trap
+mobileNav.addEventListener('keydown', function(e) {
+  if (e.key === 'Tab') {
+    const focusable = mobileNav.querySelectorAll('a,button');
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      last.focus();
+      e.preventDefault();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      first.focus();
+      e.preventDefault();
+    }
   }
 });
 
