@@ -99,14 +99,23 @@ if (themeSwitcherMobile) {
 document.addEventListener("DOMContentLoaded", function() {
   const heroTitle = document.querySelector('.hero-title');
   if (heroTitle) {
-    const text = heroTitle.textContent;
+    const text = heroTitle.textContent.trim();
     heroTitle.textContent = ''; // Clear the text
-    text.split('').forEach((char, i) => {
-      const span = document.createElement('span');
-      span.innerHTML = char === ' ' ? '&nbsp;' : char; // <-- fix: preserve space
-      span.classList.add('letter');
-      span.style.animationDelay = `${i * 0.045}s`;
-      heroTitle.appendChild(span);
+    text.split(' ').forEach((word, wIdx) => {
+      const wordSpan = document.createElement('span');
+      wordSpan.classList.add('word');
+      word.split('').forEach((char, lIdx) => {
+        const letterSpan = document.createElement('span');
+        letterSpan.textContent = char;
+        letterSpan.classList.add('letter');
+        letterSpan.style.animationDelay = `${(wIdx * 6 + lIdx) * 0.045}s`;
+        wordSpan.appendChild(letterSpan);
+      });
+      heroTitle.appendChild(wordSpan);
+      // Add space after word except last
+      if (wIdx < text.split(' ').length - 1) {
+        heroTitle.appendChild(document.createTextNode(' '));
+      }
     });
   }
 });
