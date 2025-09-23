@@ -1351,17 +1351,29 @@ a:focus-visible, button:focus-visible {
 
   /* Slightly larger CTA button and icon */
   .package-cta-primary {
+    display: flex;
+  align-items: center;
+  justify-content: space-between; 
     font-size: 1.12rem;        /* increased from 1.02rem */
     min-height: 46px;          /* increased from 40px */
     padding-left: 1em;         /* increased from 0.7em */
     padding-right: 1em;        /* add right padding for balance */
   }
-  .package-cta-primary-icon,
-  .package-cta-primary-icon svg {
-    width: 48px;               /* increased from 40px */
-    height: 48px;              /* increased from 40px */
-    min-width: 48px;
-  }
+.package-cta-primary-icon {
+  margin-left: auto;         /* pushes icon to the right edge */
+  margin-right: -0.2em;      /* lets circle touch button edge */
+  display: flex;             /* centers SVG in wrapper */
+  align-items: center;
+  width: 48px;               /* increased size */
+  height: 48px;
+  min-width: 48px;
+}
+
+.package-cta-primary-icon svg {
+  display: block;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
 }
 
 /* Tablet: stacked centered */
