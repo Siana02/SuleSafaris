@@ -258,6 +258,7 @@ body, button, a, ul, li, .header {
 @media (max-width: 900px) {
   .hamburger {
     display: flex;
+    z-index: 2000;
   }
   .header-title {
   max-width: 50vw;
@@ -308,13 +309,13 @@ body, button, a, ul, li, .header {
 }
 
 .menu-divider {
-
   height: 1px;
-  background: #e5e5e5;
   width: 100%;
-  margin: 0 auto;
+  background: linear-gradient(to right, #e5e5e5 0%, #f8f8f8 100%);
+  opacity: 0.7;
+  margin: 0.3em 0 0.7em 0;  /* Top margin for space below header, bottom margin for space above first item */
+  border: none;
 }
-
 /* Close X button (same as hamburger, morphs into X) */
 .close-x {
   background: none;
