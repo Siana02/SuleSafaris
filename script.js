@@ -289,31 +289,48 @@ document.addEventListener('keydown', function(e) {
   }
 });
 
-document.querySelectorAll('.countdown-number').forEach((el) => {
-  let target = +el.dataset.count;
-  let suffix = '';
-
-  // Assign suffixes based on value and label
-  if (target === 100) {
-    suffix = '%';
-  } else if (target === 20 || target === 5 || target === 50) {
-    suffix = '+';
-  }
-
-  let displayed = 0;
-  const duration = 1500; // Animation duration in ms
-  const step = Math.max(1, Math.floor(target / (duration / 16)));
-  function animate() {
-    displayed += step;
-    if (displayed >= target) {
-      el.textContent = target + suffix;
-    } else {
-      el.textContent = displayed + suffix;
-      requestAnimationFrame(animate);
+function animateCounters() {
+  document.querySelectorAll('.countdown-number').forEach((el) => {
+    let target = +el.dataset.count;
+    let suffix = '';
+    if (target === 100) {
+      suffix = '%';
+    } else if (target === 20 || target === 5 || target === 50) {
+      suffix = '+';
     }
-  }
-  setTimeout(animate, 300); // Start after 0.3s
-});
+
+    let displayed = 0;
+    const duration = 1500; // ms
+    const step = Math.max(1, Math.floor(target / (duration / 16)));
+    el.textContent = '0' + suffix; // Reset for each trigger
+
+    function animate() {
+      displayed += step;
+      if (displayed >= target) {
+        el.textContent = target + suffix;
+      } else {
+        el.textContent = displayed + suffix;
+        requestAnimationFrame(animate);
+      }
+    }
+    setTimeout(animate, 300); // delay for smoothness
+  });
+}
+
+// Intersection Observer for retriggering animation
+const countdownSection = document.querySelector('.success-countdown');
+if (countdownSection) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateCounters();
+      }
+    });
+  }, { threshold: 0.3 }); // Adjust threshold as needed
+  observer.observe(countdownSection);
+}
+
+
 // Accessible, animated package cards with scroll wheel, touch, and keyboard navigation
 (function() {
   document.documentElement.classList.remove('no-js');
