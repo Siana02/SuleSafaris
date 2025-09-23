@@ -1355,13 +1355,13 @@ a:focus-visible, button:focus-visible {
   align-items: center;
   justify-content: space-between; 
     font-size: 1.12rem;        /* increased from 1.02rem */
-    min-height: 46px;          /* increased from 40px */
-    padding-left: 1em;         /* increased from 0.7em */
-    padding-right: 1em;        /* add right padding for balance */
+    min-height: 46px;   
+    padding-right: 0 /* increased from 40px */
+  
   }
 .package-cta-primary-icon {
   margin-left: auto;         /* pushes icon to the right edge */
-  margin-right: -0.2em;      /* lets circle touch button edge */
+  margin-right: 0;    /* lets circle touch button edge */
   display: flex;             /* centers SVG in wrapper */
   align-items: center;
   width: 48px;               /* increased size */
@@ -1371,9 +1371,8 @@ a:focus-visible, button:focus-visible {
 
 .package-cta-primary-icon svg {
   display: block;
-  width: 48px;
-  height: 48px;
-  min-width: 48px;
+  width: 100%;
+  height: 100%;
 }
 
 /* Tablet: stacked centered */
