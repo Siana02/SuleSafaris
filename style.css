@@ -1497,14 +1497,18 @@ a:focus-visible, button:focus-visible {
 }
 
 .about-icon-circle {
-  width: 70px;
-  height: 70px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
   background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 1.1em auto;
+}
+.about-icon-circle svg {
+  width: 120px;
+  height: 120px;
 }
 
 .about-feature-title {
