@@ -1320,6 +1320,9 @@ a:focus-visible, button:focus-visible {
   align-items: center;
 }
 .package-cta-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: var(--cta);
   color: #fff;
   border: none;
@@ -1330,27 +1333,62 @@ a:focus-visible, button:focus-visible {
   box-shadow: 0 3px 14px rgba(0,0,0,0.09);
   cursor: pointer;
   transition: background 0.18s, transform 0.13s;
-  padding: 0.7em 1.15em;
+  padding: 0 0 0 1.15em; /* No right padding, left padding for text */
   letter-spacing: 0.01em;
   margin-bottom: 0.6em;
   touch-action: manipulation;
+  min-height: 48px;
+  overflow: hidden;
 }
+
+.package-cta-primary-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  width: 48px;
+  min-width: 48px;
+  margin-left: 0.85em;
+  margin-right: -2px; /* Flush with right border */
+}
+
+.package-cta-primary-icon svg {
+  width: 48px;
+  height: 48px;
+  display: block;
+}
+
 .package-cta-primary:hover,
 .package-cta-primary:focus {
   background: var(--cta-hover);
   transform: translateY(-2px) scale(1.04);
 }
-.package-cta-primary i {
-  margin-left: 0.7em;
-  font-size: 1.25em;   /* makes the arrow bigger */
-  vertical-align: middle;
-  transition: transform 0.2s;
+
+.package-cta-primary:hover .package-cta-primary-icon svg circle,
+.package-cta-primary:focus .package-cta-primary-icon svg circle {
+  /* If you want the circle to change color on hover, uncomment the next line */
+  /* fill: var(--cta-hover); */
 }
 
-.package-cta-primary:hover i,
-.package-cta-primary:focus i {
-  transform: translateY(-2px) scale(1.12);
-  color: var(--cta-hover);
+.package-cta-primary:hover .package-cta-primary-icon svg polyline,
+.package-cta-primary:focus .package-cta-primary-icon svg polyline {
+  /* If you want the arrow to change color on hover, uncomment the next line */
+  /* stroke: #fff; */
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+  .package-cta-primary {
+    font-size: 1.02rem;
+    min-height: 40px;
+    padding-left: 0.7em;
+  }
+  .package-cta-primary-icon,
+  .package-cta-primary-icon svg {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+  }
 }
 
 .package-cta-secondary {
