@@ -319,6 +319,23 @@ body.vacation-theme .hero-bg {
   text-shadow: 0 3px 16px rgba(0,0,0,0.19);
   letter-spacing: 0.01em;
 }
+.hero-title .letter {
+  opacity: 0;
+  display: inline-block;
+  transform: scale(0.7) translateY(30px);
+  animation: popInFade 0.5s cubic-bezier(.21,.7,.51,1.01) forwards;
+}
+
+@keyframes popInFade {
+  60% {
+    opacity: 1;
+    transform: scale(1.2) translateY(-6px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
 .hero-desc {
   color: #e6faf8;
   font-family: var(--body-font);
