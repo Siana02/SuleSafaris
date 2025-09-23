@@ -171,12 +171,14 @@ document.addEventListener('mousedown', function(e) {
     closeMenu();
   }
 });
-
 // Escape key closes menu
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape' && mobileNav.classList.contains('open')) {
     closeMenu();
   }
+});
+document.querySelectorAll('.mobile-nav-list a, .mobile-nav-list button').forEach(item => {
+  item.addEventListener('click', closeMenu);
 });
 
 // Accessibility: focus trap
