@@ -1461,14 +1461,15 @@ a:focus-visible, button:focus-visible {
 }
 
 /* 3. Fade-in for the next section after cards */
-.next-section {
-  opacity: 0;
-  pointer-events: none;
+/* Always keep next section hidden by default */
+.about-section {
+  opacity: 0 !important;
+  pointer-events: none !important;
   transition: opacity 0.8s cubic-bezier(.21,.7,.51,1.01);
 }
-.next-section.revealed {
-  opacity: 1;
-  pointer-events: auto;
+.about-section.revealed {
+  opacity: 1 !important;
+  pointer-events: auto !important;
 }
 
 /* 4. Accessibility: visually focusable but only the active card has pointer-events/tabindex (handled in JS) */
