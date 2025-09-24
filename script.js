@@ -331,23 +331,45 @@ if (countdownSection) {
 }
 
 
-// Accessible, animated package cards with scroll wheel, touch, and keyboard navigation
+// Accessible, animated package cards with scroll wheel, touch, and keyboard navigation (TWEAKED)
 (function() {
   document.documentElement.classList.remove('no-js');
 
   const wrapper = document.querySelector('.packages-wrapper');
-  if (!wrapper) return; // Defensive: do nothing if packages section missing
+  if (!wrapper) return;
 
   const cards = Array.from(wrapper.querySelectorAll('.package-card'));
   const dots = Array.from(wrapper.querySelectorAll('.progress-dot'));
   const totalCards = cards.length;
   let activeIndex = 0;
   let isAnimating = false;
+  let hasRevealedNextSection = false;
 
   // Ensure wrapper can receive keyboard focus
   wrapper.setAttribute('tabindex', '0');
 
+  // Helper: fade in the next section when allowed
+  function revealNextSection() {
+    if (hasRevealedNextSection) return;
+    const nextSection = document.querySelector('.next-section');
+    if (nextSection) {
+      nextSection.style.opacity = 0;
+      nextSection.style.pointerEvents = "none";
+      nextSection.style.transition = "opacity 0.8s cubic-bezier(.21,.7,.51,1.01)";
+      setTimeout(() => {
+        nextSection.style.opacity = 1;
+        nextSection.style.pointerEvents = "auto";
+      }, 200);
+      hasRevealedNextSection = true;
+    }
+  }
+
   function setActiveCard(index, direction) {
+    // Prevent movement if already animating
+    if (isAnimating || index < 0 || index >= totalCards) return;
+
+    // Lock out navigation until current card is fully in view
+    isAnimating = true;
     cards.forEach((card, i) => {
       card.classList.remove('active', 'outgoing');
       card.setAttribute('aria-hidden', i !== index);
@@ -372,6 +394,14 @@ if (countdownSection) {
 
     wrapper.setAttribute('aria-activedescendant', `package-card-${index}`);
     cards[index].setAttribute('tabindex', '0');
+
+    // If last card, fade in next section
+    if (activeIndex === totalCards - 1) {
+      revealNextSection();
+    }
+
+    // Unlock animation after transition
+    setTimeout(() => { isAnimating = false; }, 620);
   }
 
   setActiveCard(0, null);
@@ -379,6 +409,7 @@ if (countdownSection) {
   let lastScroll = 0;
   const SCROLL_DELAY = 700;
 
+  // Strict scroll: only when 100% card is in view, prevent fast skip
   function onWheel(e) {
     if (isAnimating) return;
     const now = Date.now();
@@ -388,21 +419,24 @@ if (countdownSection) {
     const delta = e.deltaY || e.detail || e.wheelDelta;
     if (delta === 0) return;
 
+    // Prevent skipping before current card is 100% revealed
     if (delta > 0 && activeIndex < totalCards - 1) {
-      isAnimating = true;
       setActiveCard(activeIndex + 1, 'down');
-      setTimeout(() => { isAnimating = false; }, SCROLL_DELAY);
       e.preventDefault();
     } else if (delta < 0 && activeIndex > 0) {
-      isAnimating = true;
       setActiveCard(activeIndex - 1, 'up');
-      setTimeout(() => { isAnimating = false; }, SCROLL_DELAY);
       e.preventDefault();
-    } else if (delta > 0 && activeIndex === totalCards - 1) {
-      const nextSection = document.querySelector('#next-section');
+    }
+    // If last card, allow scroll to next section only after all cards are cycled
+    else if (delta > 0 && activeIndex === totalCards - 1 && hasRevealedNextSection) {
+      const nextSection = document.querySelector('.next-section');
       if (nextSection) {
         nextSection.scrollIntoView({ behavior: 'smooth' });
       }
+      e.preventDefault();
+    } else {
+      // If not allowed, snap back to current card
+      setActiveCard(activeIndex, null);
       e.preventDefault();
     }
   }
@@ -421,30 +455,46 @@ if (countdownSection) {
     if (touchStartY === null) return;
     const touchEndY = e.changedTouches[0].clientY;
     const deltaY = touchStartY - touchEndY;
-    const SWIPE_THRESHOLD = 40; // Minimum swipe distance in px
+    const SWIPE_THRESHOLD = 40;
 
-    if (Math.abs(deltaY) > SWIPE_THRESHOLD) {
+    if (!isAnimating && Math.abs(deltaY) > SWIPE_THRESHOLD) {
       if (deltaY > 0 && activeIndex < totalCards - 1) {
         setActiveCard(activeIndex + 1, 'down');
       } else if (deltaY < 0 && activeIndex > 0) {
         setActiveCard(activeIndex - 1, 'up');
       }
+      // Snap back if not allowed
+      else {
+        setActiveCard(activeIndex, null);
+      }
     }
     touchStartY = null;
   }, { passive: true });
 
-  // --- Keyboard support ---
+  // --- Keyboard support (strict lock) ---
   wrapper.addEventListener('keydown', function(e) {
     if (isAnimating) return;
     if (e.key === 'ArrowDown' || e.key === 'PageDown') {
       if (activeIndex < totalCards - 1) {
         setActiveCard(activeIndex + 1, 'down');
         e.preventDefault();
+      } else if (activeIndex === totalCards - 1 && hasRevealedNextSection) {
+        const nextSection = document.querySelector('.next-section');
+        if (nextSection) {
+          nextSection.scrollIntoView({ behavior: 'smooth' });
+        }
+        e.preventDefault();
+      } else {
+        setActiveCard(activeIndex, null);
+        e.preventDefault();
       }
     }
     if (e.key === 'ArrowUp' || e.key === 'PageUp') {
       if (activeIndex > 0) {
         setActiveCard(activeIndex - 1, 'up');
+        e.preventDefault();
+      } else {
+        setActiveCard(activeIndex, null);
         e.preventDefault();
       }
     }
@@ -455,8 +505,14 @@ if (countdownSection) {
     }
   });
 
+  // On load, keep next section hidden until reveal
   window.addEventListener('DOMContentLoaded', () => {
     document.documentElement.classList.remove('no-js');
+    const nextSection = document.querySelector('.next-section');
+    if (nextSection) {
+      nextSection.style.opacity = 0;
+      nextSection.style.pointerEvents = "none";
+    }
   });
 })();
 
