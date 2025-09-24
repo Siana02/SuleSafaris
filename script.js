@@ -515,6 +515,29 @@ if (countdownSection) {
     }
   });
 })();
+// On page load, hide about section strictly
+window.addEventListener('DOMContentLoaded', () => {
+  const aboutSection = document.querySelector('.about-section');
+  if (aboutSection) {
+    aboutSection.classList.remove('revealed');
+  }
+});
+
+// In your package card navigation JS, reveal about section only after last card
+function revealAboutSection() {
+  if (hasRevealedNextSection) return;
+  const aboutSection = document.querySelector('.about-section');
+  if (aboutSection) {
+    aboutSection.classList.add('revealed');
+    hasRevealedNextSection = true;
+  }
+}
+
+// Replace all references to .next-section in your JS with .about-section
+// Example: in your setActiveCard function
+if (activeIndex === totalCards - 1) {
+  revealAboutSection();
+}
 
 // Expand/hide About details on Learn More button click
 document.querySelector('.about-learn-more-cta').addEventListener('click', function() {
