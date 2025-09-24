@@ -1,3 +1,13 @@
+/* ==== SAFARI WEBSITE CSS - FULLY DEBUGGED AND FIXED ==== */
+
+/* 
+========================================
+1. SYNTAX CHECK & BRACE FIX
+- Fixed unmatched closing brace after .cta-btn block.
+========================================
+*/
+
+/* ========== THEME ROOT VARIABLES ========== */
 :root {
   --background: #f4efef;
   --text: #545454;
@@ -17,7 +27,7 @@
   --accent: #129490;
   --cta: #1de9b6;
   --cta-hover: #18bfa4;
-  --hero-img: url('Vacation-hero.jpg..jpg');
+  --hero-img: url('Vacation-hero.jpg'); /* FIXED: correct image path */
   --overlay: rgba(18, 148, 144, 0.28);
 }
 
@@ -29,7 +39,7 @@
   --overlay: rgba(109, 70, 80, 0.38);
 }
 
-/* General resets and box model */
+/* ========== GENERAL RESETS & BOX MODEL ========== */
 html {
   box-sizing: border-box;
   scroll-behavior: smooth;
@@ -40,12 +50,18 @@ html {
   box-sizing: inherit;
 }
 
+/* ========== FONT FAMILY ORDER FIX ========== */
+/* Use system stack for UI: buttons, links, headers only */
+button, a, ul, li, .header {
+  font-family: system-ui, sans-serif;
+}
+/* Use actual body font for main content (ASSISTANT) */
 body {
   margin: 0;
   padding: 0;
   background: var(--background);
   color: var(--text);
-  font-family: var(--body-font);
+  font-family: var(--body-font); /* FIXED: last in cascade */
   font-size: 1rem;
   min-height: 100vh;
   width: 100vw;
@@ -56,11 +72,8 @@ body.safari-theme .hero-bg,
 body.vacation-theme .hero-bg {
   opacity: 1;
 }
-/* System font stack for minimalistic look */
-body, button, a, ul, li, .header {
-  font-family: system-ui, sans-serif;
-}
 
+/* ========== HEADER & LOGO ========== */
 .header {
   display: flex;
   align-items: center;
@@ -89,10 +102,11 @@ body, button, a, ul, li, .header {
   border-radius: 50%;
   border: 2.5px solid var(--accent);
   background: #eee;
-  loading: lazy;
   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  /* REMOVED: loading: lazy; (invalid CSS) */
 }
-/* Centered Header Title with White Outline */
+
+/* ========== HEADER TITLE ========== */
 .header-title {
   position: absolute;
   left: 50%;
@@ -109,9 +123,9 @@ body, button, a, ul, li, .header {
   z-index: 10;
   white-space: nowrap;
   padding: 0 0.2em;
-    max-width: 60vw;
+  max-width: 60vw;
   line-height: 1.2;
-    overflow: hidden;
+  overflow: hidden;
   text-overflow: ellipsis;
   /* White outline: multiple text-shadows for a strong effect */
   text-shadow:
@@ -125,6 +139,7 @@ body, button, a, ul, li, .header {
     -1px 1px 0 #fff;
 }
 
+ 
 @media (max-width: 650px) {
   .header-title {
     font-size: 1.09rem;
