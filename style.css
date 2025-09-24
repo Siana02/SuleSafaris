@@ -1006,7 +1006,7 @@ a:focus-visible, button:focus-visible {
     font-size: 1em;
   }
 }
-/* === Packages Section Intro === */
+/* === Packages Section Intro [TWEAKED/EXTENDED] === */
 .packages-section-intro {
   background: #fff;
   width: 100vw;
@@ -1016,32 +1016,23 @@ a:focus-visible, button:focus-visible {
   display: flex;
   justify-content: center;
 }
-
 .packages-intro-container {
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
-  /* Add height or min-height to allow vertical centering */
-  min-height: 70px;    /* adjust as needed for your design */
-  padding: 32px 20px;   /* a bit more vertical padding for breathing room */
+  min-height: 70px;
+  padding: 32px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* flexbox: vertical centering */
-  /* Reveal animation */
+  justify-content: center;
   opacity: 0;
   transform: translateY(60px);
   animation: packagesIntroFadeIn 1.1s cubic-bezier(.21,.7,.51,1.01) 0.2s forwards;
 }
-
 @keyframes packagesIntroFadeIn {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  to { opacity: 1; transform: translateY(0); }
 }
-
-/* Title Styling */
 .packages-title {
   font-family: var(--heading-font, 'Martel', serif);
   font-size: 42px;
@@ -1054,18 +1045,10 @@ a:focus-visible, button:focus-visible {
   letter-spacing: -0.5px;
   word-break: break-word;
   transition: font-size 0.2s;
-  /* Slight fade-in for title */
   opacity: 0;
   animation: packagesTitleFade 0.9s cubic-bezier(.21,.7,.51,1.01) 0.35s forwards;
 }
-
-@keyframes packagesTitleFade {
-  to {
-    opacity: 1;
-  }
-}
-
-/* Subtitle Styling */
+@keyframes packagesTitleFade { to { opacity: 1; } }
 .packages-subtitle {
   font-family: var(--body-font, 'Assistant', sans-serif);
   font-size: 18px;
@@ -1080,49 +1063,22 @@ a:focus-visible, button:focus-visible {
   opacity: 0;
   animation: packagesSubtitleFade 1s cubic-bezier(.21,.7,.51,1.01) 0.6s forwards;
 }
-
-@keyframes packagesSubtitleFade {
-  to {
-    opacity: 1;
-  }
-}
+@keyframes packagesSubtitleFade { to { opacity: 1; } }
 
 /* Tablet Styles */
 @media (max-width: 1023px) {
-  .packages-intro-container {
-    max-width: 90vw;
-    padding: 60px 20px;
-  }
-  .packages-title {
-    font-size: 36px;
-    max-width: 90%;
-  }
-  .packages-subtitle {
-    font-size: 17px;
-    max-width: 600px;
-    margin-bottom: 50px;
-  }
+  .packages-intro-container { max-width: 90vw; padding: 60px 20px; }
+  .packages-title { font-size: 36px; max-width: 90%; }
+  .packages-subtitle { font-size: 17px; max-width: 600px; margin-bottom: 50px; }
 }
 
 /* Mobile Styles */
 @media (max-width: 767px) {
-  .packages-intro-container {
-    max-width: 100vw;
-    padding: 40px 15px;
-  }
-  .packages-title {
-    font-size: 28px;
-    max-width: 95%;
-    margin-bottom: 12px;
-  }
-  .packages-subtitle {
-    font-size: 16px;
-    max-width: 90vw;
-    margin-bottom: 40px;
-  }
+  .packages-intro-container { max-width: 100vw; padding: 40px 15px; }
+  .packages-title { font-size: 28px; max-width: 95%; margin-bottom: 12px; }
+  .packages-subtitle { font-size: 16px; max-width: 90vw; margin-bottom: 40px; }
 }
 
-/* Font inheritance from .packages-intro-container */
 .packages-section, .packages-wrapper,
 .package-card, .package-card-content,
 .package-title, .package-duration, .package-description,
@@ -1154,16 +1110,14 @@ a:focus-visible, button:focus-visible {
   justify-content: center;
 }
 
-/* Floating card styles */
+/* Floating card styles - MODIFIED: 100vw/100vh, centering, deck vertical slide */
 .package-card {
   position: absolute;
-  top: 24px; left: 0;
-  right: 0; bottom: 24px;
-  margin-left: auto;
-  margin-right: auto;
-  width: calc(100vw - 48px);
+  top: 0; left: 0; right: 0; bottom: 0;
+  margin: 0 auto;
+  width: 100vw;
   max-width: 880px;
-  height: calc(100vh - 48px);
+  height: 100vh;
   display: flex;
   background: #fff;
   border-radius: 28px;
@@ -1172,9 +1126,10 @@ a:focus-visible, button:focus-visible {
   pointer-events: none;
   z-index: 1;
   transition:
-    opacity 0.6s ease-in-out,
-    transform 0.6s ease-in-out;
-  transform: translateY(100px) scale(0.98);
+    opacity 0.6s cubic-bezier(.77,0,.175,1),
+    transform 0.6s cubic-bezier(.77,0,.175,1);
+  /* Deck slide vertical: new card slides UP, outgoing slides down */
+  transform: translateY(100vh) scale(0.98);
   will-change: opacity, transform;
 }
 
@@ -1183,28 +1138,28 @@ a:focus-visible, button:focus-visible {
   opacity: 1;
   pointer-events: auto;
   z-index: 10;
+  /* Active card is perfectly centered, full viewport */
   transform: translateY(0) scale(1);
 }
 
-/* Animation for outgoing card (slide down) */
+/* Animation for outgoing card (slide down, deck metaphor) */
 .package-card.outgoing {
   opacity: 0;
   pointer-events: none;
-  transform: translateY(100px) scale(0.98);
+  transform: translateY(100vh) scale(0.98);
   z-index: 9;
 }
 
-/* Responsive layout: Desktop 2-col, Tablet/Mobile stacked */
+/* Center image and content areas within card */
 .package-card-image {
   flex: 1 1 44%;
-  height: 100%;
   min-width: 0;
-  border-top-left-radius: 28px;
-  border-bottom-left-radius: 28px;
+  height: 100%;
+  border-radius: 28px 0 0 28px;
   overflow: hidden;
   display: flex;
-  align-items: stretch;
-  justify-content: stretch;
+  align-items: center;     /* vertical center */
+  justify-content: center; /* horizontal center */
   background: #e6f3f7;
 }
 .package-card-image img {
@@ -1215,189 +1170,86 @@ a:focus-visible, button:focus-visible {
   border-radius: 0;
   display: block;
 }
-
-/* Content column */
 .package-card-content {
   flex: 1 1 56%;
   padding: 48px 36px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
+  justify-content: center;   /* vertical center */
+  align-items: center;       /* horizontal center */
+  text-align: center;
+  height: 100%;
 }
 
-/* Title styling */
-.package-title {
-  font-size: 2.1rem;
-  font-weight: 700;
-  margin-bottom: 0.3em;
-  color: #222;
-  letter-spacing: -0.02em;
+/* All text and CTAs centered */
+.package-title, .package-description, .package-duration, .package-badge {
+  text-align: center;
+  align-self: center;
 }
-
-/* Duration styling */
-.package-duration {
-  font-size: 1.1rem;
-  font-weight: 400;
-  color: #787878;
-  margin-bottom: 0.8em;
-}
-
-/* Description */
-.package-description {
-  font-size: 1.12rem;
-  color: #222;
-  margin-bottom: 1.1em;
-  line-height: 1.5;
-}
-
-/* Badges */
-.package-badge {
-  display: inline-block;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #fff;
-  margin-bottom: 1.2em;
-  padding: 0.25em 0.8em;
-  border-radius: 16px;
-  background: #FF6B35;
-  box-shadow: 0 2px 8px rgba(255,107,53,0.09);
-}
-.badge-popular, .badge-family {
-  background: gold;
-  color: #222;
-  box-shadow: 0 2px 8px rgba(255,215,0,0.12);
-}
-.badge-adventure { background: #FF6B35; }
-.badge-romantic { background: #D96098; }
-.badge-coastal { background: #36C9FF; }
-
 .package-ctas {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   gap: 1.1em;
   margin-top: 1.8em;
   align-items: center;
+  width: 100%;
 }
-.package-cta-primary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--cta);
-  color: #fff;
-  border: none;
-  border-radius: 2em;
-  font-family: 'Assistant', sans-serif;
-  font-weight: 700;
-  font-size: 1.07rem;
-  box-shadow: 0 3px 14px rgba(0,0,0,0.09);
-  cursor: pointer;
-  transition: background 0.18s, transform 0.13s;
-  padding: 0 0 0 1.15em; /* No right padding, left padding for text */
-  letter-spacing: 0.01em;
-  margin-bottom: 0.6em;
-  touch-action: manipulation;
-  min-height: 48px;
-  overflow: hidden;
+.package-cta-primary, .package-cta-secondary {
+  margin-left: auto;
+  margin-right: auto;
+  align-self: center;
 }
 
-.package-cta-primary-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 48px;
-  width: 48px;
-  min-width: 48px;
-  margin-left: 0.85em;
-  margin-right: -2px; /* Flush with right border */
-}
-
-.package-cta-primary-icon svg {
-  width: 48px;
-  height: 48px;
-  display: block;
-}
-
-.package-cta-primary:hover,
-.package-cta-primary:focus {
-  background: var(--cta-hover);
-  transform: translateY(-2px) scale(1.04);
-}
-
-.package-cta-primary:hover .package-cta-primary-icon svg circle,
-.package-cta-primary:focus .package-cta-primary-icon svg circle {
-  /* If you want the circle to change color on hover, uncomment the next line */
-  /* fill: var(--cta-hover); */
-}
-
-.package-cta-primary:hover .package-cta-primary-icon svg polyline,
-.package-cta-primary:focus .package-cta-primary-icon svg polyline {
-  /* If you want the arrow to change color on hover, uncomment the next line */
-  /* stroke: #fff; */
-}
-
-/* Responsive */
+/* Responsive: Mobile - full viewport, vertical stack, all centered! */
 @media (max-width: 767px) {
-  /* Package card adjustments */
   .package-card {
-    left: 16px;
-    right: 16px;
-    top: 32px;
-    bottom: 32px;
-    width: auto;
-    border-radius: 32px;
+    left: 0; right: 0; top: 0; bottom: 0;
     width: 100vw;
     height: 100vh;
-    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 32px;
     box-shadow: 0px 8px 20px rgba(0,0,0,0.11), 0 2px 8px rgba(0,0,0,0.07);
   }
   .package-card-image {
-    height: 160px;
-    border-radius: 0;
+    height: 190px;
+    border-radius: 32px 32px 0 0;
+    align-items: center;
+    justify-content: center;
   }
   .package-card-content {
-    padding: 16px 10px;
+    padding: 18px 10px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: calc(100vh - 190px); /* fill remaining space */
   }
-  .package-progress-indicator {
-    right: 8px;
-    gap: 9px;
+  .package-title, .package-description, .package-duration, .package-badge {
+    text-align: center;
+    align-self: center;
   }
-
-  /* Slightly larger CTA button and icon */
-  .package-cta-primary {
-    display: flex;
-  align-items: center;
-  justify-content: space-between; 
-    font-size: 1.12rem;        /* increased from 1.02rem */
-    min-height: 46px;   
-    padding-right: 0 /* increased from 40px */
-  
+  .package-ctas {
+    flex-direction: column;
+    gap: 0.7em;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
   }
-.package-cta-primary-icon {
-  margin-left: auto;         /* pushes icon to the right edge */
-  margin-right: 0;    /* lets circle touch button edge */
-  display: flex;             /* centers SVG in wrapper */
-  align-items: center;
-  width: 48px;               /* increased size */
-  height: 48px;
-  min-width: 48px;
-}
-
-.package-cta-primary-icon svg {
-  display: block;
-  width: 100%;
-  height: 100%;
+  .package-cta-primary, .package-cta-secondary {
+    margin-left: auto;
+    margin-right: auto;
+    align-self: center;
+    width: 100%;
+    max-width: 260px;
+  }
 }
 
 /* Tablet: stacked centered */
 @media (max-width: 1023px) {
   .package-card {
     flex-direction: column;
-    width: calc(100vw - 24px);
-    height: calc(100vh - 24px);
+    width: 100vw;
+    height: 100vh;
     border-radius: 22px;
-    top: 12px; bottom: 12px;
   }
   .package-card-image {
     height: 220px;
@@ -1405,11 +1257,14 @@ a:focus-visible, button:focus-visible {
     border-radius: 22px 22px 0 0;
     border-bottom-left-radius: 0;
     border-top-left-radius: 22px;
+    align-items: center;
+    justify-content: center;
   }
   .package-card-content {
     padding: 28px 22px;
     align-items: center;
     text-align: center;
+    height: calc(100vh - 220px);
   }
   .package-title, .package-description, .package-duration, .package-badge {
     text-align: center;
@@ -1417,13 +1272,17 @@ a:focus-visible, button:focus-visible {
   }
   .package-ctas {
     justify-content: center;
+    align-items: center;
+    width: 100%;
   }
-  .package-progress-indicator {
-    right: 18px;
-    gap: 11px;
+  .package-cta-primary, .package-cta-secondary {
+    margin-left: auto;
+    margin-right: auto;
+    align-self: center;
+    width: 100%;
+    max-width: 260px;
   }
 }
-
 
 /* Accessibility fallback: vertical stack if JS fails */
 .no-js .package-card {
@@ -1437,4 +1296,3 @@ a:focus-visible, button:focus-visible {
 .no-js .package-progress-indicator {
   display: none !important;
 }
-
