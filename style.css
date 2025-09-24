@@ -1425,6 +1425,83 @@ a:focus-visible, button:focus-visible {
   }
 }
 
+  /* === Deck Animation & Section Reveal Additions (delete–copy–paste block) === */
+
+/* 1. Ensure full viewport height for each package card (for strict one-at-a-time visibility) */
+.package-card,
+.package-card.active {
+  height: 100vh !important;
+  min-height: 100vh !important;
+  max-height: 100vh !important;
+  top: 0 !important;
+  bottom: 0 !important;
+}
+
+/* 2. Deck vertical slide animation for package cards */
+.package-card {
+  transition:
+    opacity 0.7s cubic-bezier(.21,.7,.51,1.01),
+    transform 0.7s cubic-bezier(.21,.7,.51,1.01);
+  /* Default position for inactive cards: below viewport */
+  transform: translateY(100px) scale(0.98);
+}
+.package-card.active {
+  transition:
+    opacity 0.7s cubic-bezier(.21,.7,.51,1.01),
+    transform 0.7s cubic-bezier(.21,.7,.51,1.01);
+  /* Slide upward into place */
+  transform: translateY(0) scale(1);
+}
+.package-card.outgoing {
+  /* Slide downward when leaving */
+  transition:
+    opacity 0.7s cubic-bezier(.21,.7,.51,1.01),
+    transform 0.7s cubic-bezier(.21,.7,.51,1.01);
+  transform: translateY(100px) scale(0.98);
+}
+
+/* 3. Fade-in for the next section after cards */
+.next-section {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s cubic-bezier(.21,.7,.51,1.01);
+}
+.next-section.revealed {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* 4. Accessibility: visually focusable but only the active card has pointer-events/tabindex (handled in JS) */
+
+/* 5. Prevent partial peeking (JS will enforce scroll lock, but CSS ensures only one is visible at a time) */
+.package-card:not(.active) {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* 6. Responsive: Make sure mobile/tablet also get 100vh for cards */
+@media (max-width: 1023px) {
+  .package-card,
+  .package-card.active {
+    height: 100vh !important;
+    min-height: 100vh !important;
+    max-height: 100vh !important;
+    top: 0 !important;
+    bottom: 0 !important;
+  }
+}
+@media (max-width: 767px) {
+  .package-card,
+  .package-card.active {
+    height: 100vh !important;
+    min-height: 100vh !important;
+    max-height: 100vh !important;
+    top: 0 !important;
+    bottom: 0 !important;
+  }
+}
+
+/* === End of deck animation and section reveal additions === */
 
 /* Accessibility fallback: vertical stack if JS fails */
 .no-js .package-card {
