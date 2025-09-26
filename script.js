@@ -331,213 +331,97 @@ if (countdownSection) {
 }
 
 
-// Accessible, animated package cards with scroll wheel, touch, and keyboard navigation (TWEAKED)
-(function() {
-  document.documentElement.classList.remove('no-js');
+document.addEventListener("DOMContentLoaded", function() {
+  const section = document.querySelector(".packages-section");
+  const cards = document.querySelectorAll(".package-card");
+  const progressDots = document.querySelectorAll(".progress-dot");
+  const aboutSection = document.querySelector(".about-section");
+  let currentCard = 0;
+  let ticking = false;
+  let startY = 0;
 
-  const wrapper = document.querySelector('.packages-wrapper');
-  if (!wrapper) return;
+  // Initialize: show first card, first dot, hide about section
+  cards.forEach((card, idx) => {
+    card.classList.remove("active", "outgoing");
+    card.style.zIndex = idx === 0 ? 10 : 9;
+    card.style.transform = "translateY(100px) scale(0.98)";
+  });
+  cards[0].classList.add("active");
+  cards[0].style.transform = "translateY(0) scale(1)";
+  
+  progressDots.forEach(dot => dot.classList.remove("active"));
+  if (progressDots[0]) progressDots[0].classList.add("active");
+  if (aboutSection) aboutSection.classList.remove("revealed");
 
-  const cards = Array.from(wrapper.querySelectorAll('.package-card'));
-  const dots = Array.from(wrapper.querySelectorAll('.progress-dot'));
-  const totalCards = cards.length;
-  let activeIndex = 0;
-  let isAnimating = false;
-  let hasRevealedNextSection = false;
+  function updateCards(newIndex) {
+    if (newIndex < 0 || newIndex >= cards.length) return;
 
-  // Ensure wrapper can receive keyboard focus
-  wrapper.setAttribute('tabindex', '0');
+    // Animate outgoing card
+    cards[currentCard].classList.remove("active");
+    cards[currentCard].classList.add("outgoing");
+    cards[currentCard].style.transform = "translateY(-20px) scale(0.98)";
+    
+    // Animate incoming card
+    cards[newIndex].classList.remove("outgoing");
+    cards[newIndex].classList.add("active");
+    cards[newIndex].style.transform = "translateY(0) scale(1)";
+    
+    cards.forEach((card, idx) => card.style.zIndex = (idx === newIndex ? 10 : 9));
+    currentCard = newIndex;
 
-  // Helper: fade in the next section when allowed
-  function revealNextSection() {
-    if (hasRevealedNextSection) return;
-    const nextSection = document.querySelector('.next-section');
-    if (nextSection) {
-      nextSection.style.opacity = 0;
-      nextSection.style.pointerEvents = "none";
-      nextSection.style.transition = "opacity 0.8s cubic-bezier(.21,.7,.51,1.01)";
-      setTimeout(() => {
-        nextSection.style.opacity = 1;
-        nextSection.style.pointerEvents = "auto";
-      }, 200);
-      hasRevealedNextSection = true;
+    // Update progress dots
+    progressDots.forEach(dot => dot.classList.remove("active"));
+    if (progressDots[currentCard]) progressDots[currentCard].classList.add("active");
+
+    // Reveal about section only at the last card
+    if (aboutSection) {
+      if (currentCard === cards.length - 1) aboutSection.classList.add("revealed");
+      else aboutSection.classList.remove("revealed");
     }
   }
 
-  function setActiveCard(index, direction) {
-    // Prevent movement if already animating
-    if (isAnimating || index < 0 || index >= totalCards) return;
-
-    // Lock out navigation until current card is fully in view
-    isAnimating = true;
-    cards.forEach((card, i) => {
-      card.classList.remove('active', 'outgoing');
-      card.setAttribute('aria-hidden', i !== index);
-      card.style.zIndex = i === index ? 10 : 1;
-      card.style.pointerEvents = i === index ? 'auto' : 'none';
-      card.setAttribute('tabindex', '-1');
-    });
-    dots.forEach((dot, i) => {
-      dot.classList.toggle('active', i === index);
-    });
-
-    if (direction !== undefined && direction !== null) {
-      const prev = cards[activeIndex];
-      if (prev && prev !== cards[index]) {
-        prev.classList.add('outgoing');
-        setTimeout(() => prev.classList.remove('outgoing'), 620);
-      }
+  function handleScroll(deltaY) {
+    if (!ticking) {
+      ticking = true;
+      if (deltaY > 0) updateCards(currentCard + 1);
+      else if (deltaY < 0) updateCards(currentCard - 1);
+      setTimeout(() => ticking = false, 700);
     }
-
-    cards[index].classList.add('active');
-    activeIndex = index;
-
-    wrapper.setAttribute('aria-activedescendant', `package-card-${index}`);
-    cards[index].setAttribute('tabindex', '0');
-
-    // If last card, fade in next section
-    if (activeIndex === totalCards - 1) {
-      revealNextSection();
-    }
-
-    // Unlock animation after transition
-    setTimeout(() => { isAnimating = false; }, 620);
   }
 
-  setActiveCard(0, null);
-
-  let lastScroll = 0;
-  const SCROLL_DELAY = 700;
-
-  // Strict scroll: only when 100% card is in view, prevent fast skip
-  function onWheel(e) {
-    if (isAnimating) return;
-    const now = Date.now();
-    if (now - lastScroll < SCROLL_DELAY) return;
-    lastScroll = now;
-
-    const delta = e.deltaY || e.detail || e.wheelDelta;
-    if (delta === 0) return;
-
-    // Prevent skipping before current card is 100% revealed
-    if (delta > 0 && activeIndex < totalCards - 1) {
-      setActiveCard(activeIndex + 1, 'down');
+  // Prevent default page scroll while in package cards (except last card)
+  function wheelHandler(e) {
+    if (currentCard < cards.length - 1) {
       e.preventDefault();
-    } else if (delta < 0 && activeIndex > 0) {
-      setActiveCard(activeIndex - 1, 'up');
-      e.preventDefault();
-    }
-    // If last card, allow scroll to next section only after all cards are cycled
-    else if (delta > 0 && activeIndex === totalCards - 1 && hasRevealedNextSection) {
-      const nextSection = document.querySelector('.next-section');
-      if (nextSection) {
-        nextSection.scrollIntoView({ behavior: 'smooth' });
-      }
-      e.preventDefault();
+      handleScroll(e.deltaY);
     } else {
-      // If not allowed, snap back to current card
-      setActiveCard(activeIndex, null);
-      e.preventDefault();
+      handleScroll(e.deltaY); // allow scroll if on last card
     }
   }
-  wrapper.addEventListener('wheel', onWheel, { passive: false });
 
-  // --- Touch support for mobile devices ---
-  let touchStartY = null;
+  // Scroll detection
+  section.addEventListener("wheel", wheelHandler, { passive: false });
 
-  wrapper.addEventListener('touchstart', function(e) {
-    if (e.touches.length === 1) {
-      touchStartY = e.touches[0].clientY;
-    }
-  }, { passive: true });
-
-  wrapper.addEventListener('touchend', function(e) {
-    if (touchStartY === null) return;
-    const touchEndY = e.changedTouches[0].clientY;
-    const deltaY = touchStartY - touchEndY;
-    const SWIPE_THRESHOLD = 40;
-
-    if (!isAnimating && Math.abs(deltaY) > SWIPE_THRESHOLD) {
-      if (deltaY > 0 && activeIndex < totalCards - 1) {
-        setActiveCard(activeIndex + 1, 'down');
-      } else if (deltaY < 0 && activeIndex > 0) {
-        setActiveCard(activeIndex - 1, 'up');
-      }
-      // Snap back if not allowed
-      else {
-        setActiveCard(activeIndex, null);
-      }
-    }
-    touchStartY = null;
-  }, { passive: true });
-
-  // --- Keyboard support (strict lock) ---
-  wrapper.addEventListener('keydown', function(e) {
-    if (isAnimating) return;
-    if (e.key === 'ArrowDown' || e.key === 'PageDown') {
-      if (activeIndex < totalCards - 1) {
-        setActiveCard(activeIndex + 1, 'down');
-        e.preventDefault();
-      } else if (activeIndex === totalCards - 1 && hasRevealedNextSection) {
-        const nextSection = document.querySelector('.next-section');
-        if (nextSection) {
-          nextSection.scrollIntoView({ behavior: 'smooth' });
-        }
-        e.preventDefault();
-      } else {
-        setActiveCard(activeIndex, null);
-        e.preventDefault();
-      }
-    }
-    if (e.key === 'ArrowUp' || e.key === 'PageUp') {
-      if (activeIndex > 0) {
-        setActiveCard(activeIndex - 1, 'up');
-        e.preventDefault();
-      } else {
-        setActiveCard(activeIndex, null);
-        e.preventDefault();
-      }
-    }
-    if (e.key === 'Enter' || e.key === ' ') {
-      const ctaPrimary = cards[activeIndex].querySelector('.package-cta-primary');
-      if (ctaPrimary) ctaPrimary.click();
-      e.preventDefault();
-    }
+  // Arrow key support
+  window.addEventListener("keydown", e => {
+    if (e.key === "ArrowDown") handleScroll(1);
+    else if (e.key === "ArrowUp") handleScroll(-1);
   });
 
-  // On load, keep next section hidden until reveal
-  window.addEventListener('DOMContentLoaded', () => {
-    document.documentElement.classList.remove('no-js');
-    const nextSection = document.querySelector('.next-section');
-    if (nextSection) {
-      nextSection.style.opacity = 0;
-      nextSection.style.pointerEvents = "none";
+  // Mobile swipe
+  section.addEventListener("touchstart", e => {
+    startY = e.touches[0].clientY;
+  }, { passive: true });
+
+  section.addEventListener("touchend", e => {
+    let endY = e.changedTouches[0].clientY;
+    let diff = startY - endY;
+    if (Math.abs(diff) > 50) {
+      handleScroll(diff);
     }
   });
-})();
-// On page load, hide about section strictly
-window.addEventListener('DOMContentLoaded', () => {
-  const aboutSection = document.querySelector('.about-section');
-  if (aboutSection) {
-    aboutSection.classList.remove('revealed');
-  }
 });
 
-// In your package card navigation JS, reveal about section only after last card
-function revealAboutSection() {
-  if (hasRevealedNextSection) return;
-  const aboutSection = document.querySelector('.about-section');
-  if (aboutSection) {
-    aboutSection.classList.add('revealed');
-    hasRevealedNextSection = true;
-  }
-}
-
-// Replace all references to .next-section in your JS with .about-section
-// Example: in your setActiveCard function
-if (activeIndex === totalCards - 1) {
-  revealAboutSection();
-}
 
 // Expand/hide About details on Learn More button click
 document.querySelector('.about-learn-more-cta').addEventListener('click', function() {
@@ -549,6 +433,12 @@ document.querySelector('.about-learn-more-cta').addEventListener('click', functi
     expanded.style.display = "none";
   }
 });
+
+
+
+
+
+
 
 // Expand About section if "About" in nav is clicked
 // This requires your nav About link to have href="#about" or a data attribute
